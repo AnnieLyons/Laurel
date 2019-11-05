@@ -1,4 +1,13 @@
-class User(db.Model): 
+
+from datetime import datetime
+import enum
+import flask 
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+
+db = SQLAlchemy(app)
+
+class User(UserMixin, db.Model): 
     """User information."""
 
     __tablename__ = "users"
@@ -7,13 +16,27 @@ class User(db.Model):
                         primary_key=True,
                         autoincrement=True,
                         )
-    fname
-    lname
-    email
-    password
-    created_at
-    updated_at
+    fname = db.Column(db.String(50), nullable=False,)
+    lname = db.Column(db.String(50), nullable=False,)
+    email = db.Column(db.String(100), nullable=False, unique=True,)
+    '''
+    password_hash = db.Column(db.String(50), nullable=False,)
+    '''
+    created_at = db.Column(db.DateTime, db.default=datetime.now)
+    updated_at = db.Column(db.DateTime, db.onupdate=datetime.now)
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    db.session.add()
+    db.session.commit()
+
+    def __repr__(self):
+    """Show user information."""
+        return f"<User user_id={self.user_id} fname={self.fname} lname={self.lanme} email={self.email}"
 
 class Bird(db.Model): 
     """Bird and species information."""
@@ -24,10 +47,14 @@ class Bird(db.Model):
                         primary_key=True,
                         autoincrement=True,
                         )
-    species
-    created_at
-    updated_at
+    '''
+    species = db.Column(db.String(75), nullable=False, unique=True,)..... Use Enum?
+    '''
+    created_at = db.Column(db.DateTime, db.default=datetime.now)
+    updated_at = db.Column(db.DateTime, db.onupdate=datetime.now)
 
+    db.session.add()
+    db.session.commit()
 
 class Field_Log(db.Model): 
     """Log book to track birds seen and related information."""
@@ -38,18 +65,27 @@ class Field_Log(db.Model):
                        primary_key=True,
                        autoincrement=True,
                        )
-    date
-    time_of_day
-    location
-    weather
-    habitat
-    equipment
-    notes
-    created_at
-    updated_at
+    '''
+    date = db.Column(db.Date)......
+    time = db.Column(db.Time)......
+    '''
+    location = db.Column(db.String(100), nullable=False,)
+    weather = db.Column(db.String(100),)
+    habitat = db.Column(db.String(100),)
+    equipment = db.Column(db.String(100),)
+    notes = db.Column(db.Text,)
+    created_at = db.Column(db.DateTime, db.default=datetime.now)
+    updated_at = db.Column(db.DateTime, db.onupdate=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    user_id (FK)
 
+    db.session.add()
+    db.session.commit()
+
+
+    def __repr__(self):
+    """Show field log information."""
+        return f"<Feild_Log log_id={self.log_id} date={self.date} location={self.location}"
 
 class Log_Birds(db.Model):
     """List of all birds seen on a particular day."""
@@ -61,24 +97,22 @@ class Log_Birds(db.Model):
                              autoincrement=True,
                              )
 
-    log_id (FK)
-    bird_id (FK)
+    log_id = db.Column(db.Integer, db.ForeignKey('field_logs.log_id'))
+    bird_id = db.Column(db.Integer, db.ForeignKey('birds.brid_id'))
+
+    db.session.add()
+    db.session.commit()
+
+    def __repr__(self):
+    """Show birds in curent log."""
+        return f"<Birds birds_seen={self.log_birds_id} current_log={self.log_id}"
 
 
-# class TimeStampMixin(object):
-    """ Timestamping mixin """  
+"""
+***RESOURCE LIST***
 
-    # created_at = Column(DateTime, default=datetime.utcnow)
-    # created_at._creation_order = 9998  
-    # updated_at = Column(DateTime, default=datetime.utcnow)
-    # updated_at._creation_order = 9998  
+- https://docs.sqlalchemy.org/en/13/core/defaults.html
+- https://docs.sqlalchemy.org/en/13/core/type_basics.html
+- https://dev.to/kaelscion/authentication-hashing-in-sqlalchemy-1bem
 
-    # @staticmethod  
-    # def _updated_at(mapper, connection, target):  
-    #     target.updated_at = datetime.utcnow()  
-
-    # @classmethod  
-    # def __declare_last__(cls):  
-    #     event.listen(cls, 'before_update', cls._updated_at) 
-
-    # https://til.tafkas.net/post/python/auto-timestamping-sqlalchemy-entities/
+"""
