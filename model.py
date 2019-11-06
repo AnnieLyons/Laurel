@@ -2,18 +2,19 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
-class User(UserMixin, db.Model): 
+class User(db.Model): 
     """User information."""
 
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, 
                         primary_key=True,
-                        autoincrement=True
+                        autoincrement=True,
+                        nullable=False
                         )
-    created_at = db.Column(db.DateTime, default=db.func.now())
+    created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     fname = db.Column(db.String(50), nullable=False)
@@ -28,15 +29,20 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-    """Show helpful user information."""
+        """Show helpful user information."""
         return f"<User user_id={self.user_id} fname={self.fname} lname={self.lanme} email={self.email}"
 
 
 # Association Table with the log_id's and bird_id's.
-bird_field_log_association_table = db.Table('birds_field_logs', db.Base.metadata,
+bird_field_log_association_table = db.Table('birds_field_logs',
     db.Column('log_id', db.Integer, db.ForeignKey('field_logs.log_id')),
     db.Column('bird_id', db.Integer, db.ForeignKey('birds.bird_id'))
 )
+
+'''Had to remove the "db.Base.metadata" from the association_table above to make 
+the server.py run! Make sure it still works before deleting this code'''
+# bird_field_log_association_table = db.Table('birds_field_logs', db.Base.metadata,
+
 
 
 class Bird(db.Model): 
@@ -46,9 +52,10 @@ class Bird(db.Model):
 
     bird_id = db.Column(db.Integer, 
                         primary_key=True,
-                        autoincrement=True
+                        autoincrement=True,
+                        nullable=False
                         )
-    created_at = db.Column(db.DateTime, default=db.func.now())
+    created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     species = db.Column(db.String(75), nullable=False, unique=True)
@@ -63,9 +70,10 @@ class Field_Log(db.Model):
 
     log_id = db.Column(db.Integer, 
                        primary_key=True,
-                       autoincrement=True
+                       autoincrement=True,
+                       nullable=False
                        )
-    created_at = db.Column(db.DateTime, default=db.func.now())
+    created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     # When creating data for date and time, remember to use datetime.date/time.
@@ -82,8 +90,28 @@ class Field_Log(db.Model):
     user = db.relationship('User', backref='field_logs')
     
     def __repr__(self):
-    """Show helpful field log information."""
+        """Show helpful field log information."""
         return f"<Field_Log log_id={self.log_id} date={self.date} location={self.location}"
+
+
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
+
+    # Configure to use our database.
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///laurel"
+    app.config["SQLALCHEMY_ECHO"] = True
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
+
+
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will leave
+    # you in a state of being able to work with the database directly.
+
+    from server import app
+    connect_to_db(app)
+
 
 
 
