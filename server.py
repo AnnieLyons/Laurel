@@ -36,7 +36,7 @@ def registration_process():
     password_hash = request.form["password"]
 
 
-    new_user = User(fname=fname, lname=lanme, email=email, password_hash=password_hash)
+    new_user = User(fname=fname, lname=lname, email=email, password_hash=password_hash)
 
     db.session.add(new_user)
     db.session.commit()
