@@ -20,4 +20,3 @@ def load_birds():
 if __name__ == "__main__":
     connect_to_db(app)
     load_birds()
-   

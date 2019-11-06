@@ -30,7 +30,7 @@ class User(db.Model):
 
     def __repr__(self):
         """Show helpful user information."""
-        return f"<User user_id={self.user_id} fname={self.fname} lname={self.lanme} email={self.email}"
+        return f"<User user_id={self.user_id} fname={self.fname} lname={self.lname} email={self.email}"
 
 
 # Association Table with the log_id's and bird_id's.
@@ -38,11 +38,6 @@ bird_field_log_association_table = db.Table('birds_field_logs',
     db.Column('log_id', db.Integer, db.ForeignKey('field_logs.log_id')),
     db.Column('bird_id', db.Integer, db.ForeignKey('birds.bird_id'))
 )
-
-'''Had to remove the "db.Base.metadata" from the association_table above to make 
-the server.py run! Make sure it still works before deleting this code'''
-# bird_field_log_association_table = db.Table('birds_field_logs', db.Base.metadata,
-
 
 
 class Bird(db.Model): 
@@ -85,6 +80,7 @@ class Field_Log(db.Model):
     date = db.Column(db.Date)
     time = db.Column(db.Time)
     location = db.Column(db.String(100), nullable=False)
+    # Think about storing lat/long for google/maps location storage 
     weather = db.Column(db.String(100))
     habitat = db.Column(db.String(100))
     equipment = db.Column(db.String(100))
@@ -116,7 +112,6 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
-
 
 
 
