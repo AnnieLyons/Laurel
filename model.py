@@ -62,6 +62,11 @@ class Bird(db.Model):
 
     field_logs = db.relationship('Field_Log', secondary=bird_field_log_association_table, backref='birds') 
 
+    def __repr__(self):
+        """Show helpful bird information."""
+        return f"<Bird bird_id={self.bird_id} species={self.species}"
+
+
 
 class Field_Log(db.Model): 
     """Log book to track birds seen and related information."""

@@ -1,14 +1,14 @@
 from model import Bird, connect_to_db, db
-
+from server import app
 
 
 def load_birds():
-    """Load games from data/games.csv into database."""
+    """Load birds from birds.csv into database."""
 
-    for bird in birds(open("/bird.csv")):
+    for row in open("birds.csv"):
 
         row = row.rstrip()
-        bird = Bird(bird_id=bird_id, species=species)
+        bird = Bird(species=row)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(bird)
@@ -19,6 +19,5 @@ def load_birds():
 
 if __name__ == "__main__":
     connect_to_db(app)
-    db.create_all()
     load_birds()
    
