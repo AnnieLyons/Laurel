@@ -93,7 +93,7 @@ def logout():
     return redirect("/login")
 
 
-@app.route('/homepage')
+@app.route('/homepage', methods=['GET'])
 def homepage():
     """Display site homepage."""
 
@@ -102,64 +102,62 @@ def homepage():
         return redirect("/login")
     else:
         return render_template("homepage.html", user=User.query.get(user_id))
-#     event listeners will route to: 
-#     create new log
-#     view past logs
-#     stats page
-#     resources page
-     
-#     navbar has hamburger with logout, account, contact
 
+
+
+@app.route('/new_log_entry', methods=['GET'])
+def new_log_form():
+    """Show new log form."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("new_logs.html", user=User.query.get(user_id))
+
+# @app.route('/new_log_entry', methods=['POST'])
+# def new_log_process():
+#      """Process new log."""
 #     pass
 
 
-# @app.route('/New_Log_Entry')
-# def ():
-#     pass
-#     #event listeners will route to: 
-#     # view past logs
-#     # stats page
-#     # resources page
-#     # 
-#     # navbar has hamburger with logout, account, contact
-#     # 
-#     # navbar has hamburger with logout, account, contact
+@app.route('/view_past_logs', methods=['GET'])
+def past_log_form():
+    """Show past log selector page."""
 
-# @app.route('/View_Past_Logs')
-# def
-#     pass
-#     #event listeners will route to: 
-#     # create new log
-#     # stats page
-#     # resources page
-#     # 
-#     # navbar has hamburger with logout, account, contact
-#     # 
-#     # navbar has hamburger with logout, account, contact
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("past_logs.html", user=User.query.get(user_id))
 
-# @app.route('/View_Stats')
-# def
-#     pass
-#     #event listeners will route to: 
-#     # create new log
-#     # view past logs
-#     # resources page
-#     # 
-#     # navbar has hamburger with logout, account, contact
-#     # 
-#     # navbar has hamburger with logout, account, contact
 
-# @app.route('/Resources')
-# def
+# @app.route('/view_past_logs', methods=['POST'])
+# def new_log_process:
+#      """Process request for past log."""
 #     pass
-#     #event listeners will route to: 
-#     # create new log
-#     # view past logs
-#     # stats page
-#     # 
-#     # navbar has hamburger with logout, account, contact
-#     # 
-#     # navbar has hamburger with logout, account, contact
+
+
+@app.route('/stats', methods=['GET'])
+def stats():
+    """Show user bird stats."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("stats.html", user=User.query.get(user_id))
+
+
+@app.route('/resources', methods=['GET'])
+def resources(): 
+    """Show avalible resources."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("resources.html", user=User.query.get(user_id))
 
 
 # @app.route('/Account_Settings')
