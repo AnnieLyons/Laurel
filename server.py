@@ -63,18 +63,18 @@ def login_process():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        flash("So Sorry! User not found.")
+        flash("So Sorry! Beak Buddy not found.")
         return redirect("/login")
 
     if user.password_hash != password_hash:
-        flash("Password is incorrect")
+        flash("Password is incorrect.")
         return redirect("/login")
 
     '''
     # Do I need to be working in a session?....
     session["user_id"] = user.user_id
     '''
-    flash("Hello, bird of a feather!")
+    flash("Hello, Beak Buddy!")
     return redirect(f"/welecome/{user.user_id}")
 
 
@@ -85,8 +85,9 @@ def logout():
     # Do I need to be working in a session and del the session info?....
     del session["user_id"]
     '''
-    
-    return render_template("logout.html")
+    flash("Flutter Back Soon!")
+    #should have a click event listener 
+    return redirect(f"/login")
 
 
 # @app.route('/Welcome')
