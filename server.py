@@ -13,7 +13,7 @@ app.secret_key = "ABC"
 # Causes an undefined variable in jinja to throw an error, instead of failing silently. 
 app.jinja_env.undefined = StrictUndefined
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def homepage():
     """Show the homepage."""
 
@@ -74,31 +74,31 @@ def login_process():
     # Do I need to be working in a session?....
     session["user_id"] = user.user_id
     '''
-    flash("Logged in")
-    return redirect(f"/users/{user.user_id}")
+    flash("Hello, bird of a feather!")
+    return redirect(f"/welecome/{user.user_id}")
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
 def logout():
     """Log out."""
     '''
     # Do I need to be working in a session and del the session info?....
     del session["user_id"]
     '''
-    flash("You are logged out.")
-    return redirect("/")
+    
+    return render_template("logout.html")
 
 
 # @app.route('/Welcome')
-# def
+# def welcome():
 
-#     #event listeners will route to: 
-#     # create new log
-#     # view past logs
-#     # stats page
-#     # resources page
-#     # 
-#     # navbar has hamburger with logout, account, contact
+#     event listeners will route to: 
+#     create new log
+#     view past logs
+#     stats page
+#     resources page
+     
+#     navbar has hamburger with logout, account, contact
 
 #     pass
 
