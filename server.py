@@ -14,13 +14,13 @@ app.secret_key = b'b\xd4\xa8\xf6#\x13\x14\x95\x8b\xb2\x19\x0c]\xea-\xef\xb0l\xd5
 app.jinja_env.undefined = StrictUndefined
 
 @app.route("/", methods=['GET'])
-def homepage():
-    """Show the homepage."""
+def welcome():
+    """Show the welcome page."""
 
     if session.get('user_id'):
-        return redirect("/welcome")
+        return redirect("/homepage")
 
-    return render_template("homepage.html")
+    return render_template("welcome_page.html")
 
 
 @app.route('/register', methods=['GET'])
@@ -79,26 +79,29 @@ def login_process():
     session["user_id"] = user.user_id
     
     flash(f"Hello, Beak Buddy {user.fname} {user.lname}!")
-    return redirect("/welcome")
+    return redirect("/homepage")
 
 
 @app.route('/logout', methods=['GET'])
 def logout():
     """Log out."""
     
+    #Remove user from session
     session.pop("user_id", None)
     
     flash("Flutter Back Soon!")
     return redirect("/login")
 
 
-@app.route('/welcome')
-def welcome():
+@app.route('/homepage')
+def homepage():
+    """Display site homepage."""
+
     user_id = session.get("user_id")
     if not user_id:
         return redirect("/login")
     else:
-        return render_template("welcome_page.html", user=User.query.get(user_id))
+        return render_template("homepage.html", user=User.query.get(user_id))
 #     event listeners will route to: 
 #     create new log
 #     view past logs

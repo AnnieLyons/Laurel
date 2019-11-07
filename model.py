@@ -121,4 +121,5 @@ if __name__ == "__main__":
 
 - https://docs.sqlalchemy.org/en/13/core/defaults.html
 - https://docs.sqlalchemy.org/en/13/core/type_basics.html
+- https://dev.to/kaelscion/authentication-hashing-in-sqlalchemy-1bem
 """

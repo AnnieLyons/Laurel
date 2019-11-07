@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Welcome Page{% endblock %}
+{% block title %}Welcome_Page{% endblock %}
 
 {% block content %}
+    <h1 id="welcome-page-title">Laurel</h1>
 
-<h1>Welcome back, {{ user.fname }} {{ user.lname }}!</h1>
-<a href="/logout">Logout</a>
-
+    <a href="/register">Register</a><br>
+    <a href="/login">Login</a>
 {% endblock %}
+

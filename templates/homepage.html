@@ -3,15 +3,8 @@
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
-    <h1 id="homepage-title">Laurel</h1>
 
-    <a href="/register">Register</a>
-    <a href="/login">Login</a>
+<h1>Welcome back, {{ user.fname }} {{ user.lname }}!</h1>
+<a href="/logout">Logout</a>
+
 {% endblock %}
-
-
-
-
-
-"""homepage sould send user to log in page"""
-"""this will be a form action"""
