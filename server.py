@@ -113,12 +113,35 @@ def new_log_form():
     if not user_id:
         return redirect("/login")
     else:
-        return render_template("new_logs.html", user=User.query.get(user_id))
+        return render_template("new_log_form.html", user=User.query.get(user_id))
 
-# @app.route('/new_log_entry', methods=['POST'])
-# def new_log_process():
-#      """Process new log."""
-#     pass
+@app.route('/new_log_entry', methods=['POST'])
+def new_log_process():
+    """Process new log."""
+        
+    # Get form variables
+    user_id = session.get("user_id")
+
+    date = request.form.get("date")
+    time = request.form.get("time")
+    location = request.form.get("location")
+    weather = request.form.get("weather")
+    habitat = request.form.get("habitat")
+    equipment = request.form.get("equipment")
+    notes = request.form.get("notes")
+
+    new_log = Field_Log(date=date, time=time, location=location, 
+                        weather=weather, habitat=habitat, equipment=equipment, 
+                        notes=notes)
+
+    user=User.query.get(user_id)
+    user.field_logs.append(new_log)
+
+    db.session.add(new_log)
+    db.session.commit()
+    
+    flash("Your new log has been added!")
+    return redirect("/homepage")
 
 
 @app.route('/view_past_logs', methods=['GET'])
@@ -161,15 +184,17 @@ def resources():
 
 
 # @app.route('/Account_Settings')
-# def ():
+# def account():
+# """Manage account settings such as email and password."""
 #     pass
-#     #Route to /Welcome
+#     #Route to /homepage
 
 
 # @app.route('/Contact_Us')
-# def ():
+# def contact():
+# """Display contact information."""
 #     pass
-#     #Route to /Welcome
+#     #Route to /homepage
 
 
 
