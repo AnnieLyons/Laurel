@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}New Log{% endblock %}
+
+{% block content %}
+<h1>Lets make a new log entry!</h1><br>
+
+<form action="/new_log_entry" method="POST">
+
+  <label>
+    Date
+    <input type="date" name="date" class="form-control"><br>
+  </label>
+
+   <label>
+    Time
+    <input type="time" name="time" class="form-control"><br>
+  </label>
+
+   <label>
+    Location
+    <input type="text" name="location" required class="form-control"><br>
+  </label>
+
+   <label>
+    Weather
+    <input type="text" name="weather" class="form-control"><br>
+  </label>
+
+   <label>
+    Habitat
+    <input type="text" name="habitat" class="form-control"><br>
+  </label>
+
+   <label>
+    Euipment
+    <input type="text" name="equipment" class="form-control"><br>
+  </label>
+
+   <label>
+    Notes
+    <input type="textarea" name="notes" class="form-control"><br>
+  </label>
+
+    <input type="submit" value="Submit!" class="btn btn-danger"><br>
+
+</form>
+
+<a href="/homepage">Return to homepage</a>
+
+{% endblock %}
