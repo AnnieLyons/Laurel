@@ -102,6 +102,7 @@ def connect_to_db(app):
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///laurel"
     app.config["SQLALCHEMY_ECHO"] = True
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
     db.app = app
     db.init_app(app)
 

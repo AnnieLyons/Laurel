@@ -119,9 +119,9 @@ def new_log_form():
 def new_log_process():
     """Process new log."""
         
-    # Get form variables
     user_id = session.get("user_id")
 
+    # Get form variables
     date = request.form.get("date")
     time = request.form.get("time")
     location = request.form.get("location")
@@ -145,20 +145,25 @@ def new_log_process():
 
 
 @app.route('/view_past_logs', methods=['GET'])
-def past_log_form():
+def past_logs():
     """Show past log selector page."""
 
-    user_id = session.get("user_id")
-    if not user_id:
+    current_user_id = session.get("user_id")
+
+    user_logs = db.session.query(Field_Log).join(User, User.user_id==Field_Log.user_id).filter(Field_Log.user_id==current_user_id).all()
+
+
+    if not current_user_id:
         return redirect("/login")
     else:
-        return render_template("past_logs.html", user=User.query.get(user_id))
+        return render_template("past_logs.html", user_logs=user_logs)
 
 
-# @app.route('/view_past_logs', methods=['POST'])
-# def new_log_process:
-#      """Process request for past log."""
-#     pass
+
+    #Finish this route!
+    """
+    sql("SELECT * FROM field_logs INNER JOIN users ON field_logs.user_id = users.user_id WHERE field_logs.user_id = ? SORT_BY ASCENDING", user_id)
+    """
 
 
 @app.route('/stats', methods=['GET'])
