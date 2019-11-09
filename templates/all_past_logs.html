@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Past Logs{% endblock %}
+
+{% block content %}
+<h1>Which log are you looking for?</h1>
+
+
+{% for log in user_logs %}
+    <div> 
+        <a href="/view_past_log/{{ log.log_id }}">
+            Date: {{ log.date }} / Location: {{ log.location }} 
+        </a> 
+    </div>
+{% endfor %}
+
+
+<a href="/homepage">Return to homepage</a>
+{% endblock %}

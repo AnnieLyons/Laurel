@@ -149,21 +149,30 @@ def past_logs():
     """Show past log selector page."""
 
     current_user_id = session.get("user_id")
+    current_user = User.query.get(current_user_id)
+    user_logs = current_user.field_logs
 
-    user_logs = db.session.query(Field_Log).join(User, User.user_id==Field_Log.user_id).filter(Field_Log.user_id==current_user_id).all()
+    if not current_user_id:
+        return redirect("/login")
+    else:
+        return render_template("all_past_logs.html", user_logs=user_logs)
+
+
+@app.route('/view_past_log/<log_id>', methods=['GET'])
+def past_log(log_id):
+    """Show past log page."""
+
+    current_user_id = session.get("user_id")
 
 
     if not current_user_id:
         return redirect("/login")
     else:
-        return render_template("past_logs.html", user_logs=user_logs)
+        return render_template("past_log.html", log=Field_Log.query.get(log_id))
 
 
 
-    #Finish this route!
-    """
-    sql("SELECT * FROM field_logs INNER JOIN users ON field_logs.user_id = users.user_id WHERE field_logs.user_id = ? SORT_BY ASCENDING", user_id)
-    """
+
 
 
 @app.route('/stats', methods=['GET'])
