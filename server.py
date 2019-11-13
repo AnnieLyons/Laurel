@@ -98,6 +98,7 @@ def homepage():
     """Display site homepage."""
 
     user_id = session.get("user_id")
+
     if not user_id:
         return redirect("/login")
     else:
@@ -110,6 +111,7 @@ def new_log_form():
     """Show new log form."""
 
     user_id = session.get("user_id")
+
     if not user_id:
         return redirect("/login")
     else:
@@ -164,15 +166,10 @@ def past_log(log_id):
 
     current_user_id = session.get("user_id")
 
-
     if not current_user_id:
         return redirect("/login")
     else:
         return render_template("past_log.html", log=Field_Log.query.get(log_id))
-
-
-
-
 
 
 @app.route('/stats', methods=['GET'])
@@ -180,6 +177,7 @@ def stats():
     """Show user bird stats."""
 
     user_id = session.get("user_id")
+
     if not user_id:
         return redirect("/login")
     else:
@@ -191,24 +189,94 @@ def resources():
     """Show avalible resources."""
 
     user_id = session.get("user_id")
+
     if not user_id:
         return redirect("/login")
     else:
         return render_template("resources.html", user=User.query.get(user_id))
 
 
-# @app.route('/Account_Settings')
+@app.route('/account', methods=['GET'])
+def account():
+    """Show account information such as email and password."""
+    
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("account.html", user=User.query.get(user_id))
+   
+
+# @app.route('/update_name', methods=['GET'])
+# def update_name():
+#     """Update user name."""
+    
+#     user_id = session.get("user_id")
+
+#     if not user_id:
+#         return redirect("/login")
+#     else:
+#         return render_template("account.html", user=User.query.get(user_id))
+   
+
+
+# @app.route('/update_email', methods=['GET'])
 # def account():
-# """Manage account settings such as email and password."""
-#     pass
-#     #Route to /homepage
+#     """Update user email."""
+    
+#     user_id = session.get("user_id")
+
+#     if not user_id:
+#         return redirect("/login")
+#     else:
+#         return render_template("account.html", user=User.query.get(user_id))
+   
+
+@app.route('/change_password', methods=['GET'])
+def change_password_form():
+    """Update user password."""
+    
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("change_password_form.html", user=User.query.get(user_id))
 
 
-# @app.route('/Contact_Us')
-# def contact():
-# """Display contact information."""
-#     pass
-#     #Route to /homepage
+@app.route('/change_password', methods=['POST'])
+def process_change_password():
+    """Update user password."""
+    
+    user_id = session.get("user_id")
+    password = request.form.get("password")
+    new_password = request.form.get("new_password")
+    new_password_check = request.form.get("new_password_check")
+
+    if not user_id.check_password(password):
+        flash("Password is incorrect.")
+        return redirect("/change_password")
+    else: 
+        if new_password == new_password_check:
+            user_id.set_password(new_password)
+        else: 
+            flash("Passwords do not match")
+            return redirect("/change_password")
+
+    db.session.commit()
+
+
+@app.route('/contact', methods=['GET'])
+def contact():
+    """Display contact information."""
+
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return redirect("/login")
+    else:
+        return render_template("contact.html", user=User.query.get(user_id))
 
 
 

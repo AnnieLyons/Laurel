@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Account{% endblock %}
+
+{% block content %}
+<h1>Your Account Information</h1>
+
+    <div> 
+        <a href="/update_name">
+            <h3>Update Name</h3> 
+        </a>
+        
+        <a href="/update_email">
+            <h3>Update Email</h3>
+        </a>
+
+        <a href="/change_password">
+            <h3>Change Password</h3>
+        </a>
+
+    </div>
+
+<a href="/homepage">Return to homepage</a>
+{% endblock %}
