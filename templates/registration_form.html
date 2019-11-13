@@ -8,34 +8,19 @@
 
 <form action="/register" method="POST">
 
-  
+  <label for="first_name">First Name</label>
+    <input type="text" name="first_name" id="first_name"><br>
 
-  <label>
-    First Name
-    <input type="text" name="first_name" class="form-control"><br>
-  </label>
+  <label for="last_name">Last Name</label>
+    <input type="text" name="last_name" id="last_name"><br>
 
+  <label for="email">Email</label>
+      <input type="email" name="email" id="email" required><br>
 
-  <label>
-    Last Name
-    <input type="text" name="last_name" class="form-control"><br>
-  </label>
+  <label for="password">Password</label>
+    <input type="password" name="password" id="password" required><br>
 
-
-  <label>
-      Email
-      <input type="email" name="email" required class="form-control"><br>
-  </label>
-
-
-  <label>
-    Password
-    <input type="password" name="password" required class="form-control"><br>
-  </label>
-
-
-  <input type="submit" value="Submit" class="btn btn-danger">
-
+  <input type="submit" value="Submit">
 
 </form>
 

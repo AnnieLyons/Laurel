@@ -7,49 +7,35 @@
 
 <form action="/new_log_entry" method="POST">
 
-  <label>
-    Date
-    <input type="date" name="date" class="form-control"><br>
-  </label>
+  <label for="date">Date</label>
+    <input type="date" name="date" id="date"><br>
 
-   <label>
-    Time
-    <input type="time" name="time" class="form-control"><br>
-  </label>
+   <label for="time">Time</label>
+    <input type="time" name="time" id="time"><br>
 
-   <label>
-    Location
-    <input type="text" name="location" required class="form-control"><br>
-  </label>
+   <label for="location">Location</label>
+    <input type="text" name="location" id="location" required><br>
 
-   <label>
-    Weather
-    <input type="text" name="weather" class="form-control"><br>
-  </label>
+   <label for="weather">Weather</label>
+    <input type="text" name="weather" id="weather"><br>
 
-   <label>
-    Habitat
-    <input type="text" name="habitat" class="form-control"><br>
-  </label>
+   <label for="habitat">Habitat</label>
+    <input type="text" name="habitat" id="habitat"><br>
 
-   <label>
-    Euipment
-    <input type="text" name="equipment" class="form-control"><br>
-  </label>
+   <label for="equipment">Equipment</label>
+    <input type="text" name="equipment" id="equipment"><br>
 
-   <label>
-    Notes
-    <textarea name="notes" class="form-control"></textarea><br> 
-  </label>
-
-  <label for="bird_select">Bird Seen</label>
+   <label for="notes">Notes</label>
+    <textarea name="notes" id="notes"></textarea><br> 
+  
+  <label for="bird_select">Birds Seen</label>
   <select name="bird" id="bird_select" multiple>
     {% for bird in birds %}
     <option value="{{ bird.bird_id }}">{{ bird.species }}</option>
     {% endfor %}
   </select><br>
 
-    <input type="submit" value="Submit!" class="btn btn-danger">
+    <input type="submit" value="Submit!">
 </form>
 
 <a href="/homepage">Return to homepage</a>
