@@ -39,11 +39,17 @@
 
    <label>
     Notes
-    <input type="textarea" name="notes" class="form-control"><br>
+    <textarea name="notes" class="form-control"></textarea><br> 
   </label>
 
-    <input type="submit" value="Submit!" class="btn btn-danger"><br>
+  <label for="bird_select">Bird Seen</label>
+  <select name="bird" id="bird_select" multiple>
+    {% for bird in birds %}
+    <option value="{{ bird.bird_id }}">{{ bird.species }}</option>
+    {% endfor %}
+  </select><br>
 
+    <input type="submit" value="Submit!" class="btn btn-danger">
 </form>
 
 <a href="/homepage">Return to homepage</a>

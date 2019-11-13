@@ -115,7 +115,7 @@ def new_log_form():
     if not user_id:
         return redirect("/login")
     else:
-        return render_template("new_log_form.html", user=User.query.get(user_id))
+        return render_template("new_log_form.html", user=User.query.get(user_id), birds=Bird.query.all())
 
 @app.route('/new_log_entry', methods=['POST'])
 def new_log_process():
@@ -241,30 +241,33 @@ def change_password_form():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("change_password_form.html", user=User.query.get(user_id))
+    
+    return render_template("change_password_form.html")
 
 
 @app.route('/change_password', methods=['POST'])
 def process_change_password():
     """Update user password."""
     
-    user_id = session.get("user_id")
+    user = User.query.get(session.get("user_id"))
     password = request.form.get("password")
     new_password = request.form.get("new_password")
     new_password_check = request.form.get("new_password_check")
 
-    if not user_id.check_password(password):
-        flash("Password is incorrect.")
-        return redirect("/change_password")
-    else: 
-        if new_password == new_password_check:
-            user_id.set_password(new_password)
-        else: 
-            flash("Passwords do not match")
-            return redirect("/change_password")
+    # Check if current password matches password stored in db.
+    if not user.check_password(password): 
+        flash("Password is incorrect.") 
+    # Check if new passwords match.    
+    elif new_password != new_password_check:
+        flash("Passwords do not match.")
+    # Both passwords match, set new password in db.    
+    else:
+        user.set_password(new_password)
+        db.session.commit()
+        flash("Password has been changed. Please log in again. :)")
+        return redirect("/logout")
 
-    db.session.commit()
+    return redirect("/change_password")
 
 
 @app.route('/contact', methods=['GET'])
