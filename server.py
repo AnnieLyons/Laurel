@@ -17,7 +17,7 @@ app.jinja_env.undefined = StrictUndefined
 def welcome():
     """Show the welcome page."""
 
-    if session.get('user_id'):
+    if get_current_user_id():
         return redirect("/homepage")
 
     return render_template("welcome_page.html")
@@ -97,7 +97,7 @@ def logout():
 def homepage():
     """Display site homepage."""
 
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -110,7 +110,7 @@ def homepage():
 def new_log_form():
     """Show new log form."""
 
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -121,7 +121,7 @@ def new_log_form():
 def new_log_process():
     """Process new log."""
         
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     # Get form variables
     date = request.form.get("date")
@@ -131,6 +131,7 @@ def new_log_process():
     habitat = request.form.get("habitat")
     equipment = request.form.get("equipment")
     notes = request.form.get("notes")
+    
 
     new_log = Field_Log(date=date, time=time, location=location, 
                         weather=weather, habitat=habitat, equipment=equipment, 
@@ -150,8 +151,8 @@ def new_log_process():
 def past_logs():
     """Show past log selector page."""
 
-    current_user_id = session.get("user_id")
-    current_user = User.query.get(current_user_id)
+    current_user_id = get_current_user_id()
+    current_user = get_current_user()
     user_logs = current_user.field_logs
 
     if not current_user_id:
@@ -164,7 +165,7 @@ def past_logs():
 def past_log(log_id):
     """Show past log page."""
 
-    current_user_id = session.get("user_id")
+    current_user_id = get_current_user_id()
 
     if not current_user_id:
         return redirect("/login")
@@ -176,7 +177,7 @@ def past_log(log_id):
 def stats():
     """Show user bird stats."""
 
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -188,7 +189,7 @@ def stats():
 def resources(): 
     """Show avalible resources."""
 
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -200,7 +201,7 @@ def resources():
 def account():
     """Show account information such as email and password."""
     
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -208,36 +209,66 @@ def account():
         return render_template("account.html", user=User.query.get(user_id))
    
 
-# @app.route('/update_name', methods=['GET'])
-# def update_name():
-#     """Update user name."""
+@app.route('/update_name', methods=['GET'])
+def update_name_form():
+    """Show update name form."""
+
+    user_id = get_current_user_id()
+
+    if not user_id:
+        return redirect("/login")
     
-#     user_id = session.get("user_id")
-
-#     if not user_id:
-#         return redirect("/login")
-#     else:
-#         return render_template("account.html", user=User.query.get(user_id))
-   
-
-
-# @app.route('/update_email', methods=['GET'])
-# def account():
-#     """Update user email."""
+    return render_template("update_name_form.html")
     
-#     user_id = session.get("user_id")
 
-#     if not user_id:
-#         return redirect("/login")
-#     else:
-#         return render_template("account.html", user=User.query.get(user_id))
+@app.route('/update_name', methods=['POST'])
+def process_update_name():
+    """Update user name."""
    
+    current_user = get_current_user()
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    
+    current_user.fname = fname
+    current_user.lname = lname
+
+    db.session.commit()
+
+    flash("Your name has been changed. Please log in again. :)")
+    return redirect("/logout")
+
+
+@app.route('/update_email', methods=['GET'])
+def update_email_form():
+    """Show update email form."""
+    
+    user_id = get_current_user_id()
+
+    if not user_id:
+        return redirect("/login")
+    
+    return render_template("update_email_form.html")
+
+@app.route('/update_email', methods=['POST'])
+def process_update_email():
+    """Update user email."""
+    
+    current_user = get_current_user()
+    email = request.form.get("email")
+    
+    current_user.email = email
+
+    db.session.commit()
+
+    flash("Your email has been changed. Please log in again. :)")
+    return redirect("/logout")
+
 
 @app.route('/change_password', methods=['GET'])
 def change_password_form():
-    """Update user password."""
+    """Show change password form."""
     
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
@@ -247,9 +278,9 @@ def change_password_form():
 
 @app.route('/change_password', methods=['POST'])
 def process_change_password():
-    """Update user password."""
+    """Change users password."""
     
-    user = User.query.get(session.get("user_id"))
+    user = get_current_user()
     password = request.form.get("password")
     new_password = request.form.get("new_password")
     new_password_check = request.form.get("new_password_check")
@@ -274,13 +305,23 @@ def process_change_password():
 def contact():
     """Display contact information."""
 
-    user_id = session.get("user_id")
+    user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
     else:
-        return render_template("contact.html", user=User.query.get(user_id))
+        return render_template("contact.html")
 
+
+def get_current_user():
+    """Returns user object for current user_id."""
+
+    return User.query.get(get_current_user_id())
+
+def get_current_user_id():
+    """Returns current user id."""
+
+    return session.get("user_id")
 
 
 

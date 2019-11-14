@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Past Logs{% endblock %}
+
+{% block content %}
+<h1>Please enter the fields bellow to update your name!</h1>
+
+
+<form action="/update_name" method="POST">
+
+    <label for="fname">New First Name</label>
+    <input type="text" name="fname" id="fname" required><br>
+    
+    <label for="lname">New Last Name</label>
+    <input type="text" name="lname" id="lname" required><br>
+     
+    <input type="submit" value="Submit!">
+
+</form>
+
+<a href="/homepage">Return to homepage</a>
+{% endblock %}

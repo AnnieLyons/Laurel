@@ -29,7 +29,7 @@
     <textarea name="notes" id="notes"></textarea><br> 
   
   <label for="bird_select">Birds Seen</label>
-  <select name="bird" id="bird_select" multiple>
+  <select name="bird_select" id="bird_select" multiple>
     {% for bird in birds %}
     <option value="{{ bird.bird_id }}">{{ bird.species }}</option>
     {% endfor %}

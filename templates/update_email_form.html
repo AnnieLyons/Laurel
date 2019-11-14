@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Email{% endblock %}
+
+{% block content %}
+<h1>Please enter the fields bellow to update your email!</h1>
+
+
+<form action="/update_email" method="POST">
+
+    <label for="email">New eamil address</label>
+    <input type="email" name="email" id="email" required><br>
+     
+    <input type="submit" value="Submit!">
+
+</form>
+
+<a href="/homepage">Return to homepage</a>
+{% endblock %}
