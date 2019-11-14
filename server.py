@@ -120,8 +120,6 @@ def new_log_form():
 @app.route('/new_log_entry', methods=['POST'])
 def new_log_process():
     """Process new log."""
-        
-    user_id = get_current_user_id()
 
     # Get form variables
     date = request.form.get("date")
@@ -131,14 +129,20 @@ def new_log_process():
     habitat = request.form.get("habitat")
     equipment = request.form.get("equipment")
     notes = request.form.get("notes")
-    
+
+    # Convert list of string bird_id's into integers.
+    bird_ids = [int(i) for i in request.form.getlist("bird_select")]
 
     new_log = Field_Log(date=date, time=time, location=location, 
                         weather=weather, habitat=habitat, equipment=equipment, 
                         notes=notes)
 
-    user=User.query.get(user_id)
-    user.field_logs.append(new_log)
+    # Get the bird_id out of the list.
+    for bird_id in bird_ids:
+        #Use bird_id to make bird object and append to new_log.
+        new_log.birds.append(Bird.query.get(bird_id))
+
+    new_log.user = User.query.get(get_current_user_id())
 
     db.session.add(new_log)
     db.session.commit()

@@ -55,7 +55,9 @@ class Bird(db.Model):
 
     species = db.Column(db.String(75), nullable=False, unique=True)
 
-    field_logs = db.relationship('Field_Log', secondary=bird_field_log_association_table, backref='birds') 
+    field_logs = db.relationship('Field_Log', 
+                                 secondary=bird_field_log_association_table, 
+                                 backref='birds') 
 
     def __repr__(self):
         """Show helpful bird information."""
