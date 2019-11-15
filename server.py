@@ -1,5 +1,5 @@
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Field_Log, Bird
 
@@ -131,7 +131,7 @@ def new_log_process():
     notes = request.form.get("notes")
 
     # Convert list of string bird_id's into integers.
-    bird_ids = [int(i) for i in request.form.getlist("bird_select")]
+    bird_ids = [int(i) for i in request.form.get("bird_select_ids").split(",")]
 
     new_log = Field_Log(date=date, time=time, location=location, 
                         weather=weather, habitat=habitat, equipment=equipment, 
@@ -149,6 +149,18 @@ def new_log_process():
     
     flash("Your new log has been added!")
     return redirect("/homepage")
+
+
+@app.route('/bird_search', methods=['GET'])
+def bird_search(): 
+    """Search db for bird, and return matches."""
+
+    search_term = request.args.get("search_term")
+
+    birds = Bird.query.filter(Bird.species.ilike(f'%{search_term}%')).all()
+    bird_list = [{"label": bird.species, "value": bird.bird_id} for bird in birds]
+
+    return jsonify(bird_list)
 
 
 @app.route('/view_past_logs', methods=['GET'])
