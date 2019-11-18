@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Field_Log, Bird
+from model import connect_to_db, db, User, Field_Log, Bird, bird_field_log_association_table
 
 
 
@@ -207,12 +207,25 @@ def all_birds_seen():
 
     current_user_id = get_current_user_id()
     current_user = get_current_user()
-    user_logs = current_user.field_logs.species
 
-    if not current_user_id:
+    if not current_user_id: 
         return redirect("/login")
-    else:
-        return render_template("all_birds_seen.html", speciess="species")        
+
+    birds = Bird.query \
+                .distinct() \
+                .join(bird_field_log_association_table) \
+                .join(Field_Log) \
+                .join(User) \
+                .filter((bird_field_log_association_table.c.log_id == \
+                            Field_Log.log_id) & \
+                        (bird_field_log_association_table.c.bird_id == \
+                            Bird.bird_id) & \
+                        (Field_Log.user_id == User.user_id) & \
+                        (User.user_id == current_user_id)\
+                        ) \
+                .all()
+
+    return render_template("all_birds_seen.html", birds=birds)        
 
 
 
@@ -220,12 +233,20 @@ def all_birds_seen():
 # def most_seen_birds(): 
 #     """Show user most commonly logged birds."""
 
-#     user_id = get_current_user_id()
 
-#     if not user_id:
+#     current_user_id = get_current_user_id()
+#     current_user = get_current_user()
+
+#     if not current_user_id: 
 #         return redirect("/login")
-#     else:
-#         return render_template("most_seen_birds.html", user=User.query.get(user_id))
+
+#         # birds = Bird.query \
+#                 # .........
+#                 # .........
+#                 # .........
+#                 # .all()
+    
+#     return render_template("most_seen_birds.html", birds=birds)
 
 
 @app.route('/resources', methods=['GET'])
@@ -367,15 +388,6 @@ def get_current_user_id():
 
     return session.get("user_id")
 
-# def check_user_in_session(): 
-#     """Checks if user_id is in session. If not, redirects to log in."""
-    
-#     user_id = get_current_user_id()
-
-#     if not user_id:
-#         return redirect("/login")
-
-#  Come back to this .....
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
