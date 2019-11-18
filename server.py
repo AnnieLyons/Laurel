@@ -131,7 +131,7 @@ def new_log_process():
     notes = request.form.get("notes")
 
     # Convert list of string bird_id's into integers.
-    bird_ids = [int(i) for i in request.form.get("bird_select_ids").split(",")]
+    bird_ids = [int(i) for i in request.form.getlist("bird_select")]
 
     new_log = Field_Log(date=date, time=time, location=location, 
                         weather=weather, habitat=habitat, equipment=equipment, 
@@ -158,9 +158,9 @@ def bird_search():
     search_term = request.args.get("search_term")
 
     birds = Bird.query.filter(Bird.species.ilike(f'%{search_term}%')).all()
-    bird_list = [{"label": bird.species, "value": bird.bird_id} for bird in birds]
+    bird_results = {"results": [{"id": bird.bird_id, "text": bird.species} for bird in birds]}
 
-    return jsonify(bird_list)
+    return jsonify(bird_results)
 
 
 @app.route('/view_past_logs', methods=['GET'])
@@ -201,30 +201,18 @@ def stats():
     return render_template("stats.html", user=User.query.get(user_id))
 
 
-# @app.route('/all_birds_seen', methods=['GET'])
-# def all_birds_seen():
-#     """Show user all logged birds"""
+@app.route('/all_birds_seen', methods=['GET'])
+def all_birds_seen():
+    """Show user all logged birds"""
 
-#     current_user_id = get_current_user_id()
-#     current_user = get_current_user()
-#     user_logs = current_user.field_logs.species
+    current_user_id = get_current_user_id()
+    current_user = get_current_user()
+    user_logs = current_user.field_logs.species
 
-#     if not current_user_id:
-#         return redirect("/login")
-#     else:
-#         return render_template("all_birds_seen.html", speciess="species")        
-
-
-
-    # currently returning a list of all user logs. 
-    # loop over the list, to get each individual log. 
-    # use the . oppoerator (like log.species) during each iteration of the loop
-    # to pull out the birds for that log. 
-    # use .extend to add them to a list.
-    # Use set constuctor function to convert to set (remove dups). 
-    # Use list constuctor function to convert to list again.
-
-
+    if not current_user_id:
+        return redirect("/login")
+    else:
+        return render_template("all_birds_seen.html", speciess="species")        
 
 
 
@@ -238,6 +226,7 @@ def stats():
 #         return redirect("/login")
 #     else:
 #         return render_template("most_seen_birds.html", user=User.query.get(user_id))
+
 
 @app.route('/resources', methods=['GET'])
 def resources(): 

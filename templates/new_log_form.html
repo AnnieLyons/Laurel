@@ -29,14 +29,7 @@
     <textarea name="notes" id="notes"></textarea><br> 
   
   <label for="bird_select">Birds Seen</label>
-    <input type="text" id="bird_select" size="100">
-    <input type="hidden" name="bird_select_ids" id="bird_select_ids">  
-       
-  <!-- <select name="bird_select" id="bird_select" multiple> -->
-    <!-- {% for bird in birds %} -->
-    <!-- <option value="{{ bird.bird_id }}">{{ bird.species }}</option> -->
-    <!-- {% endfor %} -->
-  <!-- </select> -->
+  <select name="bird_select" id="bird_select" multiple="multiple"></select>
   
   <br>
     <input type="submit" value="Submit!">
@@ -45,53 +38,18 @@
 <a href="/homepage">Return to homepage</a>
 
 <script type="text/javascript">
-  $('#bird_select')
-    // don't navigate away from the field on tab when selecting an item
-    .on( "keydown", function( event ) {
-      if ( event.keyCode === $.ui.keyCode.TAB &&
-          $( this ).autocomplete( "instance" ).menu.active ) {
-        event.preventDefault();
+  $('#bird_select').select2({
+    ajax: {
+      url: '/bird_search',
+      dataType: 'json',
+      method: 'GET',
+      data: (params) => {
+        return {'search_term': params.term}
       }
-    })
-    .autocomplete({
-    source: (request, response) => {
-      const terms = split(request.term);
-
-      $.getJSON('/bird_search', {"search_term": terms.pop()}, (data) => {
-        data = data.filter(item => !terms.includes(item.label));
-
-        response(data);
-      });
     },
-    select: (event, ui) => {
-      const terms = split($('#bird_select').val());
-
-      terms.pop();
-      terms.push(ui.item.label);
-      terms.push("");
-      $('#bird_select').val(terms.join(", "));
-
-      // FIXME: Right now, if you remove a bird from your list, it will not get
-      // removed from the id list. This sucks. Fix it.
-
-      const ids = split($('#bird_select_ids').val());
-      ids.push(ui.item.value);
-      $('#bird_select_ids').val(ids.join(","));
-
-      return false;
-    },
-    focus: () => {
-      return false;
-    }
+    placeholder: "Search for bird name.",
+    width: "500px"
   });
-
-  const split = val => {
-    if (val.length === 0) {
-      return [];
-    }
-
-    return val.split( /,\s*/ )
-  };
 </script>
 
 {% endblock %}
