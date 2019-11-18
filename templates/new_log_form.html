@@ -3,7 +3,7 @@
 {% block title %}New Log{% endblock %}
 
 {% block content %}
-<h1>Lets make a new log entry!</h1><br>
+<h1>Let birding commence!</h1><br>
 
 <form action="/new_log_entry" method="POST">
 
@@ -73,7 +73,7 @@
 
       // FIXME: Right now, if you remove a bird from your list, it will not get
       // removed from the id list. This sucks. Fix it.
-      
+
       const ids = split($('#bird_select_ids').val());
       ids.push(ui.item.value);
       $('#bird_select_ids').val(ids.join(","));

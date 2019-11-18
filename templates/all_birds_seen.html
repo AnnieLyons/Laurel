@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}All Birds{% endblock %}
+
+{% block content %}
+<h1>Check out your seen species list!</h1><br>
+
+<!-- FOR ALL Birds Seen -->
+
+<!-- Loop over all past logs, for just the birds. -->
+<!-- Add birds to a list, if bird not in list -->
+<!-- Show list, ordered alpha. -->
+
+{% for log in user_logs %}
+    <div> 
+        <a href='/all_birds_seen/'{{ log.species }}">
+            Species: {{ log.species }} 
+        </a> 
+    </div>
+{% endfor %}
+
+
+<a href="/stats">Return to Stats List</a><br>
+<a href="/homepage">Return to homepage</a>
+
+{% endblock %}

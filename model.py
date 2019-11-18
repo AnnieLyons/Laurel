@@ -90,7 +90,7 @@ class Field_Log(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
 
-    user = db.relationship('User', backref='field_logs')
+    user = db.relationship('User', backref=db.backref('field_logs', order_by='Field_Log.date'))
     
     def __repr__(self):
         """Show helpful field log information."""

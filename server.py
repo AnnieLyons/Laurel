@@ -101,8 +101,8 @@ def homepage():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("homepage.html", user=User.query.get(user_id))
+    
+    return render_template("homepage.html", user=User.query.get(user_id))
 
 
 
@@ -114,8 +114,8 @@ def new_log_form():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("new_log_form.html", user=User.query.get(user_id), birds=Bird.query.all())
+    
+    return render_template("new_log_form.html", user=User.query.get(user_id), birds=Bird.query.all())
 
 @app.route('/new_log_entry', methods=['POST'])
 def new_log_process():
@@ -173,8 +173,8 @@ def past_logs():
 
     if not current_user_id:
         return redirect("/login")
-    else:
-        return render_template("all_past_logs.html", user_logs=user_logs)
+    
+    return render_template("all_past_logs.html", user_logs=user_logs)
 
 
 @app.route('/view_past_log/<log_id>', methods=['GET'])
@@ -185,21 +185,59 @@ def past_log(log_id):
 
     if not current_user_id:
         return redirect("/login")
-    else:
-        return render_template("past_log.html", log=Field_Log.query.get(log_id))
+    
+    return render_template("past_log.html", log=Field_Log.query.get(log_id))
 
 
 @app.route('/stats', methods=['GET'])
 def stats():
-    """Show user bird stats."""
+    """Show user bird stat options."""
 
     user_id = get_current_user_id()
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("stats.html", user=User.query.get(user_id))
+    
+    return render_template("stats.html", user=User.query.get(user_id))
 
+
+# @app.route('/all_birds_seen', methods=['GET'])
+# def all_birds_seen():
+#     """Show user all logged birds"""
+
+#     current_user_id = get_current_user_id()
+#     current_user = get_current_user()
+#     user_logs = current_user.field_logs.species
+
+#     if not current_user_id:
+#         return redirect("/login")
+#     else:
+#         return render_template("all_birds_seen.html", speciess="species")        
+
+
+
+    # currently returning a list of all user logs. 
+    # loop over the list, to get each individual log. 
+    # use the . oppoerator (like log.species) during each iteration of the loop
+    # to pull out the birds for that log. 
+    # use .extend to add them to a list.
+    # Use set constuctor function to convert to set (remove dups). 
+    # Use list constuctor function to convert to list again.
+
+
+
+
+
+# @app.route('/most_seen_birds', methods=['GET'])
+# def most_seen_birds(): 
+#     """Show user most commonly logged birds."""
+
+#     user_id = get_current_user_id()
+
+#     if not user_id:
+#         return redirect("/login")
+#     else:
+#         return render_template("most_seen_birds.html", user=User.query.get(user_id))
 
 @app.route('/resources', methods=['GET'])
 def resources(): 
@@ -209,8 +247,8 @@ def resources():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("resources.html", user=User.query.get(user_id))
+    
+    return render_template("resources.html", user=User.query.get(user_id))
 
 
 @app.route('/account', methods=['GET'])
@@ -221,8 +259,8 @@ def account():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("account.html", user=User.query.get(user_id))
+  
+    return render_template("account.html", user=User.query.get(user_id))
    
 
 @app.route('/update_name', methods=['GET'])
@@ -325,8 +363,8 @@ def contact():
 
     if not user_id:
         return redirect("/login")
-    else:
-        return render_template("contact.html")
+    
+    return render_template("contact.html")
 
 
 def get_current_user():
@@ -334,12 +372,21 @@ def get_current_user():
 
     return User.query.get(get_current_user_id())
 
+
 def get_current_user_id():
     """Returns current user id."""
 
     return session.get("user_id")
 
+# def check_user_in_session(): 
+#     """Checks if user_id is in session. If not, redirects to log in."""
+    
+#     user_id = get_current_user_id()
 
+#     if not user_id:
+#         return redirect("/login")
+
+#  Come back to this .....
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
