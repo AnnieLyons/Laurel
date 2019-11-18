@@ -2,7 +2,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Field_Log, Bird, bird_field_log_association_table
-
+from sqlalchemy import func, desc
 
 
 app = Flask(__name__)
@@ -229,24 +229,34 @@ def all_birds_seen():
 
 
 
-# @app.route('/most_seen_birds', methods=['GET'])
-# def most_seen_birds(): 
-#     """Show user most commonly logged birds."""
+@app.route('/most_seen_birds', methods=['GET'])
+def most_seen_birds(): 
+    """Show user most commonly logged birds."""
 
+    current_user_id = get_current_user_id()
+    current_user = get_current_user()
 
-#     current_user_id = get_current_user_id()
-#     current_user = get_current_user()
+    if not current_user_id: 
+        return redirect("/login")
 
-#     if not current_user_id: 
-#         return redirect("/login")
-
-#         # birds = Bird.query \
-#                 # .........
-#                 # .........
-#                 # .........
-#                 # .all()
+    birds = Bird.query \
+                .join(bird_field_log_association_table) \
+                .join(Field_Log) \
+                .join(User) \
+                .filter((bird_field_log_association_table.c.log_id == \
+                            Field_Log.log_id) & \
+                        (bird_field_log_association_table.c.bird_id == \
+                            Bird.bird_id) & \
+                        (Field_Log.user_id == User.user_id) & \
+                        (User.user_id == current_user_id)) \
+                .with_entities(Bird.species, \
+                               func.count(Bird.species).label('total')) \
+                .group_by(Bird.species) \
+                .order_by( desc('total') ) \
+                .limit(10) \
+                .all()
     
-#     return render_template("most_seen_birds.html", birds=birds)
+    return render_template("most_seen_birds.html", birds=birds)
 
 
 @app.route('/resources', methods=['GET'])

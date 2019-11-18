@@ -3,14 +3,18 @@
 {% block title %}Top Birds{% endblock %}
 
 {% block content %}
-<h1>Check out your 10 most frequently seen birds!</h1><br>
-<!-- 
+<h1>Check out your most frequently seen birds!</h1><br>
+
 <ol>
     {% for bird in birds %}
-        <li>{{ bird.species }}</li>
+        <li>
+            Species: {{ bird[0] }}
+            <br> 
+            Times seen: {{ bird[1] }}
+        </li>
     {% endfor %}    
 </ol>
- -->
+
 
 <a href="/stats">Return to Stats List</a><br>
 <a href="/homepage">Return to homepage</a>
