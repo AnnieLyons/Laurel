@@ -115,7 +115,9 @@ def new_log_form():
     if not user_id:
         return redirect("/login")
     
-    return render_template("new_log_form.html", user=User.query.get(user_id), birds=Bird.query.all())
+    return render_template("new_log_form.html", 
+                            user=User.query.get(user_id), 
+                            birds=Bird.query.all())
 
 @app.route('/new_log_entry', methods=['POST'])
 def new_log_process():
@@ -125,6 +127,10 @@ def new_log_process():
     date = request.form.get("date")
     time = request.form.get("time")
     location = request.form.get("location")
+
+    latitude = request.form.get("latitude")
+    longitude = request.form.get("longitude")
+
     weather = request.form.get("weather")
     habitat = request.form.get("habitat")
     equipment = request.form.get("equipment")
@@ -133,9 +139,9 @@ def new_log_process():
     # Convert list of string bird_id's into integers.
     bird_ids = [int(i) for i in request.form.getlist("bird_select")]
 
-    new_log = Field_Log(date=date, time=time, location=location, 
-                        weather=weather, habitat=habitat, equipment=equipment, 
-                        notes=notes)
+    new_log = Field_Log(date=date, time=time, location=location, latitude=latitude,
+                        longitude=longitude, weather=weather, habitat=habitat, 
+                        equipment=equipment, notes=notes)
 
     # Get the bird_id out of the list.
     for bird_id in bird_ids:

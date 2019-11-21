@@ -54,6 +54,7 @@ class Bird(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     species = db.Column(db.String(75), nullable=False, unique=True)
+    scientific_name = db.Column(db.String(150), nullable=False, unique=True)
 
     field_logs = db.relationship('Field_Log', 
                                  secondary=bird_field_log_association_table, 
@@ -82,7 +83,10 @@ class Field_Log(db.Model):
     date = db.Column(db.Date)
     time = db.Column(db.Time)
     location = db.Column(db.String(100), nullable=False)
-    # Think about storing lat/long for google/maps location storage 
+    
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float) 
+    
     weather = db.Column(db.String(100))
     habitat = db.Column(db.String(100))
     equipment = db.Column(db.String(100))

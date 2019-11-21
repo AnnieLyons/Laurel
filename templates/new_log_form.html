@@ -16,6 +16,32 @@
    <label for="location">Location</label>
     <input type="text" name="location" id="location" required><br>
 
+    <div id="result">
+      <label for="latitude"></label>
+      <input type="hidden" name="latitude" id="latitude">
+      <label for="longitude"></label>
+      <input type="hidden" name="longitude" id="longitude"> 
+            <!--Position information will be inserted here-->
+      <button type="button" onclick="showPosition();">Show Current Location</button>
+
+      <script>
+        function showPosition() {
+            if(navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+              var positionInfoLatitude = position.coords.latitude;
+              var positionInfoLongitude = position.coords.longitude;
+
+              document.getElementById("latitude").setAttribute("value", positionInfoLatitude)
+              document.getElementById("longitude").setAttribute("value", positionInfoLongitude)
+
+                });
+            } else {
+                alert("Sorry, your browser does not support HTML5 geolocation.");
+            }
+        }
+      </script>
+    </div>
+
    <label for="weather">Weather</label>
     <input type="text" name="weather" id="weather"><br>
 
@@ -51,5 +77,7 @@
     width: "500px"
   });
 </script>
+
+
 
 {% endblock %}
