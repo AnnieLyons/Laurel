@@ -13,8 +13,11 @@
    <label for="time">Time</label>
     <input type="time" name="time" id="time"><br>
 
+   <label for="location_nickname">Location Nickname</label>
+    <input type="text" name="location_nickname" id="location_nickname"><br>
+
    <label for="location">Location</label>
-    <input type="text" name="location" id="location" required><br>
+    <input type="text" name="location" id="location" required disabled><br>
 
     <div id="result">
       <label for="latitude"></label>
@@ -22,24 +25,7 @@
       <label for="longitude"></label>
       <input type="hidden" name="longitude" id="longitude"> 
             <!--Position information will be inserted here-->
-      <button type="button" onclick="showPosition();">Show Current Location</button>
-
-      <script>
-        function showPosition() {
-            if(navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(position) {
-              var positionInfoLatitude = position.coords.latitude;
-              var positionInfoLongitude = position.coords.longitude;
-
-              document.getElementById("latitude").setAttribute("value", positionInfoLatitude)
-              document.getElementById("longitude").setAttribute("value", positionInfoLongitude)
-
-                });
-            } else {
-                alert("Sorry, your browser does not support HTML5 geolocation.");
-            }
-        }
-      </script>
+      <button type="button" onclick="showPosition();">Auto Log Your Location</button>
     </div>
 
    <label for="weather">Weather</label>
@@ -62,22 +48,48 @@
 </form>
 
 <a href="/homepage">Return to homepage</a>
-
+<h4>*Laurel is currently compatible with North and Middle American Species</h4>
 <script type="text/javascript">
-  $('#bird_select').select2({
-    ajax: {
-      url: '/bird_search',
-      dataType: 'json',
-      method: 'GET',
-      data: (params) => {
-        return {'search_term': params.term}
+
+  // <!-- FIXME: Document Ready prevents showPosition from running. -->
+  // $(document).ready( () => {
+
+    // Autocomplete bird selection box
+    $('#bird_select').select2({
+      ajax: {
+        url: '/bird_search',
+        dataType: 'json',
+        method: 'GET',
+        data: (params) => {
+          return {'search_term': params.term}
+        }
+      },
+      placeholder: "Search for bird name.",
+      width: "500px"
+    });
+
+    // Location grabbing and display
+    const showPosition = () => {
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition( (position) => {
+          const positionInfoLatitude = position.coords.latitude;
+          const positionInfoLongitude = position.coords.longitude;
+
+          $('#latitude').attr('value', positionInfoLatitude);
+          $('#longitude').attr('value', positionInfoLongitude);
+
+          $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${positionInfoLatitude},${positionInfoLongitude}&key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40`, (response) => {
+              $('#location').val(response.results[0].formatted_address);
+          });
+        });
+      } else {
+          alert("Sorry, your browser does not support HTML5 geolocation.");
       }
-    },
-    placeholder: "Search for bird name.",
-    width: "500px"
-  });
+    };
+
+  // });
 </script>
 
-
-
 {% endblock %}
+
+

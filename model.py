@@ -82,6 +82,7 @@ class Field_Log(db.Model):
     # When creating data for date and time, remember to use datetime.date/time.
     date = db.Column(db.Date)
     time = db.Column(db.Time)
+    location_nickname = db.Column(db.String(100))
     location = db.Column(db.String(100), nullable=False)
     
     latitude = db.Column(db.Float)

@@ -126,6 +126,7 @@ def new_log_process():
     # Get form variables
     date = request.form.get("date")
     time = request.form.get("time")
+    location_nickname = request.form.get("location_nickname")
     location = request.form.get("location")
 
     latitude = request.form.get("latitude")
@@ -139,9 +140,10 @@ def new_log_process():
     # Convert list of string bird_id's into integers.
     bird_ids = [int(i) for i in request.form.getlist("bird_select")]
 
-    new_log = Field_Log(date=date, time=time, location=location, latitude=latitude,
-                        longitude=longitude, weather=weather, habitat=habitat, 
-                        equipment=equipment, notes=notes)
+    new_log = Field_Log(date=date, time=time, location_nickname=location_nickname,
+                        location=location, latitude=latitude, longitude=longitude, 
+                        weather=weather, habitat=habitat, equipment=equipment, 
+                        notes=notes)
 
     # Get the bird_id out of the list.
     for bird_id in bird_ids:
@@ -263,6 +265,18 @@ def most_seen_birds():
                 .all()
     
     return render_template("most_seen_birds.html", birds=birds)
+
+
+@app.route('/bird_map', methods=['GET'])
+def bird_map():
+    """Shows a map of all locations where logs have been made"""
+
+    user_id = get_current_user_id()
+
+    if not user_id:
+        return redirect("/login")
+    
+    return render_template("bird_map.html", user=User.query.get(user_id))
 
 
 @app.route('/resources', methods=['GET'])
