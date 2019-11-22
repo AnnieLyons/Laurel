@@ -13,5 +13,27 @@
     {% endfor %}
 </div>
 
+<div id="map" style="width: 250px; height: 250px;"></div>
+
+<script type="text/javascript">
+    const loc = {lat: {{ log.latitude }}, lng: {{ log.longitude }} };
+
+    // Initialize and add the map
+    function initMap() {
+
+        const map = new google.maps.Map($('#map')[0], {
+          zoom: 11,
+          center: loc
+        });
+
+        const marker = new google.maps.Marker({
+            position: loc,
+            map: map
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
+
 <a href="/homepage">Return to homepage</a>
 {% endblock %}

@@ -17,7 +17,7 @@
     <input type="text" name="location_nickname" id="location_nickname"><br>
 
    <label for="location">Location</label>
-    <input type="text" name="location" id="location" required disabled><br>
+    <input type="text" name="location" id="location" required readonly><br>
 
     <div id="result">
       <label for="latitude"></label>
@@ -77,7 +77,7 @@
 
           $('#latitude').attr('value', positionInfoLatitude);
           $('#longitude').attr('value', positionInfoLongitude);
-
+          // FIXME: Should the API key be secure somehow?
           $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${positionInfoLatitude},${positionInfoLongitude}&key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40`, (response) => {
               $('#location').val(response.results[0].formatted_address);
           });

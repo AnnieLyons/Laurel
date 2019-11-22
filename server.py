@@ -272,11 +272,12 @@ def bird_map():
     """Shows a map of all locations where logs have been made"""
 
     user_id = get_current_user_id()
+    current_user = get_current_user()
 
     if not user_id:
         return redirect("/login")
     
-    return render_template("bird_map.html", user=User.query.get(user_id))
+    return render_template("bird_map.html", logs=current_user.field_logs)
 
 
 @app.route('/resources', methods=['GET'])
