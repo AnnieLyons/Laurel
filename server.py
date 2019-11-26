@@ -156,7 +156,18 @@ def new_log_process():
     db.session.commit()
     
     flash("Your new log has been added!")
-    return redirect("/homepage")
+    return redirect("/recent_ebirds")
+
+
+@app.route('/recent_ebirds', methods=['GET'])
+def recent_ebirds():
+
+    user_id = get_current_user_id()
+
+    if not user_id:
+        return redirect("/login")
+    
+    return render_template("recent_ebirds.html")
 
 
 @app.route('/bird_search', methods=['GET'])

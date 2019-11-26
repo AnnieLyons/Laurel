@@ -49,6 +49,7 @@
 
 <a href="/homepage">Return to homepage</a>
 <h4>*Laurel is currently compatible with North and Middle American Species</h4>
+
 <script type="text/javascript">
 
   // <!-- FIXME: Document Ready prevents showPosition from running. -->
@@ -81,14 +82,35 @@
           $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${positionInfoLatitude},${positionInfoLongitude}&key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40`, (response) => {
               $('#location').val(response.results[0].formatted_address);
           });
+
+          const loc = {lat: positionInfoLatitude, lng: positionInfoLongitude};
+
+          $( "#result" ).after( "<div id='map' style='width: 250px; height: 250px;'></div>" );
+          
+          initMap(loc);
         });
       } else {
           alert("Sorry, your browser does not support HTML5 geolocation.");
       }
     };
 
+    // Initialize and add the map
+    function initMap(loc) {
+
+        const map = new google.maps.Map($('#map')[0], {
+          zoom: 11,
+          center: loc
+        });
+
+        const marker = new google.maps.Marker({
+            position: loc,
+            map: map
+        });
+    }
   // });
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40" async defer></script>
 
 {% endblock %}
 
