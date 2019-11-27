@@ -3,13 +3,13 @@
 {% block title %}eBirds{% endblock %}
 
 {% block content %}
-<h1>Birds recently reported in this area.</h1>
+<h1>Birds recently reported within {{ '{0:0.2f}'.format(distance*0.621371) }} miles of {{ location_nickname }}.</h1>
 
-{#     <div> 
-        {% for bird in birds %}
-
-        {% endfor %} 
-    </div> #}
+<ul> 
+    {% for bird in birds %}
+        <li>{{ bird }}</li>
+    {% endfor %}
+</ul>
 
 <a href="/homepage">Return to homepage</a>
 {% endblock %}

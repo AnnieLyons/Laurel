@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Field_Log, Bird, bird_field_log_association_table
 from sqlalchemy import func, desc
-
+from ebird.api import get_nearby_notable
 
 app = Flask(__name__)
 
@@ -156,18 +156,30 @@ def new_log_process():
     db.session.commit()
     
     flash("Your new log has been added!")
-    return redirect("/recent_ebirds")
+    
+    return redirect(f"/recent_ebirds?log_id={new_log.log_id}")
 
 
 @app.route('/recent_ebirds', methods=['GET'])
 def recent_ebirds():
 
     user_id = get_current_user_id()
+    log_id = request.args.get("log_id")
 
     if not user_id:
         return redirect("/login")
-    
-    return render_template("recent_ebirds.html")
+
+    log = Field_Log.query.get(log_id)
+
+    records = []
+    distance = 0
+    while len(records) <= 5:
+        distance += 1
+        records = get_nearby_notable("hlnlefom7qq", log.latitude, log.longitude, dist=distance)
+
+    birds_seen = set(record['comName'] for record in records)
+
+    return render_template("recent_ebirds.html", birds = birds_seen, distance = distance, location_nickname = log.location_nickname)
 
 
 @app.route('/bird_search', methods=['GET'])
