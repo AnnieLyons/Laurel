@@ -5,11 +5,11 @@
 {% block content %}
 <h1>Check out your seen species list!</h1><br>
 
-<ul>
+<ol>
     {% for bird in birds %}
         <li>{{ bird.species }}</li>
     {% endfor %}    
-</ul>
+</ol>
 
 <a href="/stats">Return to Stats List</a><br>
 <a href="/homepage">Return to homepage</a>
