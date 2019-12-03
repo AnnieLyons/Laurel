@@ -3,20 +3,53 @@
 {% block title %}Top Birds{% endblock %}
 
 {% block content %}
-<h1>Check out your most frequently seen birds!</h1><br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/homepage">Laurel</a> 
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-<ol>
-    {% for bird in birds %}
-        <li>
-            Species: {{ bird[0] }}
-            <br> 
-            Times seen: {{ bird[1] }}
-        </li>
-    {% endfor %}    
-</ol>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/new_log_entry">Make Log <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/view_past_logs">Past Logs <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/stats">Bird Stats <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/resources">Resources</a>
+          <a class="dropdown-item" href="/account">Account</a>
+          <a class="dropdown-item" href="/contact">Contact</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+   
+  </div>
+</nav>
 
 
-<a href="/stats">Return to Stats List</a><br>
-<a href="/homepage">Return to homepage</a>
+<div>
+    <h2>Check out your most frequently seen birds!</h2><br>
+
+    <ol>
+        {% for bird in birds %}
+            <li>
+                Species: {{ bird[0] }}
+                <br> 
+                Times seen: {{ bird[1] }}
+            </li>
+        {% endfor %}    
+    </ol>
+</div>
 
 {% endblock %}

@@ -3,52 +3,90 @@
 {% block title %}New Log{% endblock %}
 
 {% block content %}
-<h1>Let birding commence!</h1><br>
 
-<form action="/new_log_entry" method="POST">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/homepage">Laurel</a> 
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <label for="date">Date</label>
-    <input type="date" name="date" id="date"><br>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/new_log_entry">Make Log <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/view_past_logs">Past Logs <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/stats">Bird Stats <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/resources">Resources</a>
+          <a class="dropdown-item" href="/account">Account</a>
+          <a class="dropdown-item" href="/contact">Contact</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+   
+  </div>
+</nav>
 
-   <label for="time">Time</label>
-    <input type="time" name="time" id="time"><br>
 
-   <label for="location_nickname">Location Nickname</label>
-    <input type="text" name="location_nickname" id="location_nickname"><br>
+<div>
+  <h2>Let birding commence!</h2><br>
 
-   <label for="location">Location</label>
-    <input type="text" name="location" id="location" required readonly><br>
+  <form action="/new_log_entry" method="POST">
 
-    <div id="result">
-      <label for="latitude"></label>
-      <input type="hidden" name="latitude" id="latitude">
-      <label for="longitude"></label>
-      <input type="hidden" name="longitude" id="longitude"> 
-            <!--Position information will be inserted here-->
-      <button type="button" onclick="showPosition();">Auto Log Your Location</button>
-    </div>
+    <label for="date">Date</label>
+      <input type="date" name="date" id="date"><br>
 
-   <label for="weather">Weather</label>
-    <input type="text" name="weather" id="weather"><br>
+     <label for="time">Time</label>
+      <input type="time" name="time" id="time"><br>
 
-   <label for="habitat">Habitat</label>
-    <input type="text" name="habitat" id="habitat"><br>
+     <label for="location_nickname">Location Nickname</label>
+      <input type="text" name="location_nickname" id="location_nickname"><br>
 
-   <label for="equipment">Equipment</label>
-    <input type="text" name="equipment" id="equipment"><br>
+     <label for="location">Location</label>
+      <input type="text" name="location" id="location" required readonly><br>
 
-   <label for="notes">Notes</label>
-    <textarea name="notes" id="notes"></textarea><br> 
-  
-  <label for="bird_select">Birds Seen</label>
-  <select name="bird_select" id="bird_select" multiple="multiple"></select>
-  
-  <br>
-    <input type="submit" value="Submit!">
-</form>
+      <div id="result">
+        <label for="latitude"></label>
+        <input type="hidden" name="latitude" id="latitude">
+        <label for="longitude"></label>
+        <input type="hidden" name="longitude" id="longitude"> 
+              <!--Position information will be inserted here-->
+        <button type="button" onclick="showPosition();">Auto Log Your Location</button>
+      </div>
 
-<a href="/homepage">Return to homepage</a>
-<h4>*Laurel is currently compatible with North and Middle American Species</h4>
+     <label for="weather">Weather</label>
+      <input type="text" name="weather" id="weather"><br>
+
+     <label for="habitat">Habitat</label>
+      <input type="text" name="habitat" id="habitat"><br>
+
+     <label for="equipment">Equipment</label>
+      <input type="text" name="equipment" id="equipment"><br>
+
+     <label for="notes">Notes</label>
+      <textarea name="notes" id="notes"></textarea><br> 
+    
+    <label for="bird_select">Birds Seen*</label>
+    <select name="bird_select" id="bird_select" multiple="multiple"></select>
+    
+    <br>
+      <input type="submit" value="Submit!">
+  </form>
+
+  <!-- <a href="/homepage">Return to homepage</a> -->
+  <h6>*Laurel is currently compatible with North and Middle American Species</h6>
+</div>  
 
 <script type="text/javascript">
 
