@@ -6,8 +6,7 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <!-- Note to self: removed href="" below to make "Laurel" not a link-->
-  <a class="navbar-brand">Laurel</a> 
+  <a class="navbar-brand" href="/homepage">Laurel</a> 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -25,7 +24,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          Other
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/resources">Resources</a>
@@ -42,7 +41,15 @@
 
 <div class="jumbotron text-center">
   <h1>Hello {{ user.fname }}!</h1>
-  <h2>Welcome back to Laurel, where birding awaits!</h2>
+  <h2>Welcome to Laurel, where birding awaits!</h2>
 </div>
 
+<div>
+  <style>
+  body {
+    background-image: url('/static/birds.jpg');
+    background-repeat: no-repeat;
+  }
+  </style>
+</div>
 {% endblock %}
