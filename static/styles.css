@@ -1,31 +1,31 @@
 
-body {
+.container-body {
   font-family: "Arial", sans-serif;
   color: ;
 }
 
-h1, h2, {
+.h1, .h2, {
   font-family: "Palatino", serif;
-  color: #E86168;
+  color: #74BF04;
 }
 
-h3, h4, {
+.h3, .h4, {
   font-family: "Palatino", serif;
-  color: #FF7F6B;
+  color: #E9DA0F;
 }
 
-h5, h6 {
+.h5, .h6 {
   font-family: "Palatino", serif;
-  color: #262626;
+  color: #6F6E48
 }
 
-.inner-container {
-    background-image: url('birds.jpg');
+/*.col-8 {
+    background-image: url('orange_bird.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    min-height: 600px;
- }
+   
+ }*/
 
  .transparent {
     background-color: transparent;
