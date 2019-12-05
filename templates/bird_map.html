@@ -16,8 +16,6 @@
 
                 <div id="map" style="width: 395px; height: 395px;"></div>
 
-                <a href="/stats">Return to stats</a>
-
                 <script type="text/javascript">
                 const locations = [
                 {% for log in logs %}
@@ -57,6 +55,7 @@
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
                 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
             </div>
+            <a href="/stats">Return to stats</a>
          </div>
          
          <div class="col-8">
