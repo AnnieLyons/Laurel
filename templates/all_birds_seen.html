@@ -5,29 +5,20 @@
 
 {% block content %}
 
+<div class="row">
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary">Your identified species!</h2>
 
-<div>
-
-    <div class="row">
-
-        <div class="col-4">
-
-            <div class="card border-primary">
-                <h2 class="card-header text-primary">Your identified species!</h2>
-
-                <ol class="card-body text-secondary">
-                    {% for bird in birds %}
-                        <li>{{ bird.species }}</li>
-                    {% endfor %}    
-                </ol>
-            </div>   
-            <a class="card-body text-primary" href="/stats">Return to stats</a>
-        </div>
-            
-        <img src="/static/images/cardinal_chickadee.jpg" alt="Cardinal and Chickadee" class="main-image col-8">
-           
-    </div>
-
-<div>
+            <ol class="card-body text-secondary">
+                {% for bird in birds %}
+                    <li>{{ bird.species }}</li>
+                {% endfor %}    
+            </ol>
+        </div>   
+        <a class="card-body text-primary" href="/stats">Return to stats</a>
+    </div> 
+    <img src="/static/images/cardinal_chickadee.jpg" alt="Cardinal and Chickadee" class="main-image col-8">   
+</div>
 
 {% endblock %}

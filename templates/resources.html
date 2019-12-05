@@ -4,26 +4,22 @@
 
 {% block content %}
 
-<div>
+<div class="row">
 
-    <div class="row">
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary">Helpful resources:</h2>
 
-        <div class="col-4">
-            <div class="card border-primary">
-                <h2 class="card-header text-primary">Helpful resources:</h2>
+            <h4 class="text-secondary">Help identifying birds by sight: <a href="https://www.birds.cornell.edu/home/">Cornell University: Dept of Ornithology</a></h4>
 
-                <h4 class="text-secondary">Help identifying birds by sight: <a href="https://www.birds.cornell.edu/home/">Cornell University: Dept of Ornithology</a></h4>
+            <h4 class="text-secondary">Help identifying bird songs: <a href="https://nationalzoo.si.edu/scbi/migratorybirds/education/nasongkey.pl">PWRC: Guide to North American Bird Songs and Sounds</a></h4>
 
-                <h4 class="text-secondary">Help identifying bird songs: <a href="https://nationalzoo.si.edu/scbi/migratorybirds/education/nasongkey.pl">PWRC: Guide to North American Bird Songs and Sounds</a></h4>
-
-                <h4 class="text-secondary">Help identifying bird eggs: <a href="https://thebirdersreport.com/egg-and-nest-identification">The Birders Report: Egg and Nest Identification</a></h4>
-            </div>
+            <h4 class="text-secondary">Help identifying bird eggs: <a href="https://thebirdersreport.com/egg-and-nest-identification">The Birders Report: Egg and Nest Identification</a></h4>
         </div>
-
-        <img src="/static/images/owl.jpg" alt="Owl" class="main-image col-8">
-
     </div>
 
-<div>
+    <img src="/static/images/owl.jpg" alt="Owl" class="main-image col-8">
+
+</div>
 
 {% endblock %}

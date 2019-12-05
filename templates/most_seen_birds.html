@@ -4,32 +4,25 @@
 
 {% block content %}
 
+<div class="row">
+    <img src="/static/images/king_fisher.jpg" alt="King Fisher" class="main-image col-8">
 
-<div>
-
-    <div class="row">
-
-        <img src="/static/images/king_fisher.jpg" alt="King Fisher" class="main-image col-8">
-
-        <div class="col-4">
-            <div class="card border-primary">
-                <h2 class="card-header text-primary">Check out your most frequently seen birds!</h2>
-                
-                <ol class="card-body text-secondary">
-                    {% for bird in birds %}
-                        <li>
-                            {{ bird[0] }}
-                            <br> 
-                            Times seen: {{ bird[1] }}
-                        </li>
-                    {% endfor %}    
-                 </ol>
-            </div> 
-            <a class="card-body text-primary" href="/stats">Return to stats</a>    
-         </div>
-
-    </div>
-
-<div>
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary">Check out your most frequently seen birds!</h2>
+            
+            <ol class="card-body text-secondary">
+                {% for bird in birds %}
+                    <li>
+                        {{ bird[0] }}
+                        <br> 
+                        Times seen: {{ bird[1] }}
+                    </li>
+                {% endfor %}    
+             </ol>
+        </div> 
+        <a class="card-body text-primary" href="/stats">Return to stats</a>    
+     </div>
+</div>
 
 {% endblock %}

@@ -6,6 +6,8 @@ db = SQLAlchemy()
 
 class User(db.Model): 
     """User information."""
+    
+    # This Table has a backref relationship with the Field_log Table.
 
     __tablename__ = "users"
 
@@ -122,12 +124,3 @@ if __name__ == "__main__":
     connect_to_db(app)
 
 
-
-
-"""
-***RESOURCE LIST***
-
-- https://docs.sqlalchemy.org/en/13/core/defaults.html
-- https://docs.sqlalchemy.org/en/13/core/type_basics.html
-- https://dev.to/kaelscion/authentication-hashing-in-sqlalchemy-1bem
-"""

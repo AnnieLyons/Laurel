@@ -4,28 +4,21 @@
 
 {% block content %}
 
-<div>
-
-    <div class="row">
-
-        <div class="col-4">
-            <div class="card border-primary">
-                <h2 class="card-header text-primary"> Which past log would you like to view?</h2>
-            </div>
-            <div class="border-primary">
-                {% for log in user_logs %}
-                <a class="card border-primary" href="/view_past_log/{{ log.log_id }}">
-                    <div class="card-header text-primary">Date: {{ log.date }}</div>
-                    <div class="card-body text-secondary">Location: {{ log.location_nickname }}</div>
-                </a>  
-                {% endfor %}
-            </div>
+<div class="row">
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary"> Which past log would you like to view?</h2>
         </div>
-                
-        <img src="/static/images/grebe.jpg" alt="Great Crested Grebe" class="main-image col-8">
-
-    </div>
-
+        <div class="border-primary">
+            {% for log in user_logs %}
+            <a class="card border-primary" href="/view_past_log/{{ log.log_id }}">
+                <div class="card-header text-primary">Date: {{ log.date }}</div>
+                <div class="card-body text-secondary">Location: {{ log.location_nickname }}</div>
+            </a>  
+            {% endfor %}
+        </div>
+    </div>     
+    <img src="/static/images/grebe.jpg" alt="Great Crested Grebe" class="main-image col-8">
 </div>
 
 {% endblock %}

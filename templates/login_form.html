@@ -6,31 +6,24 @@
 
 {% block content %}
  
-<div>
+<div class="row">
+    <div class="col-4">
+        <div class="card border-primary">    
+            <h2 class="card-header text-primary">Welcome back!</h2>
+            <form action="/login" method="POST">
 
-    <div class="row">
+              <label for="email">Your Email:</label>
+                <input type="email" name="email" id="email" required><br>
+                
+              <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required><br>
 
-        <div class="col-4">
-            <div class="card border-primary">    
-                <h2 class="card-header text-primary">Welcome back!</h2>
-                <form action="/login" method="POST">
+                <input type="submit" value="Submit!">
 
-                  <label for="email">Your Email:</label>
-                    <input type="email" name="email" id="email" required><br>
-                    
-                  <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" required><br>
-
-                    <input type="submit" value="Submit!">
-
-                </form>
-            </div>    
-        </div>
-
-        <img src="/static/images/puffin_pair.jpg" alt="Puffins" class="main-image col-8">
-       
+            </form>
+        </div>    
     </div>
-
-<div>
+    <img src="/static/images/puffin_pair.jpg" alt="Puffins" class="main-image col-8">  
+</div>
 
 {% endblock %}

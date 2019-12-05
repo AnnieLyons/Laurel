@@ -5,26 +5,22 @@
 
 {% block content %}
 
-<div>
+<div class="row">
 
-    <div class="row">
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary">Your bird stats.</h2>
 
-        <div class="col-4">
-            <div class="card border-primary">
-                <h2 class="card-header text-primary">Your bird stats.</h2>
+            <a class="text-secondary" href="/all_birds_seen"><h4>List of all birds seen</h4></a>
+            <a class="text-secondary" href="/most_seen_birds"><h4>Most frequently seen birds</h4></a>
+            <a class="text-secondary" href="/bird_map"><h4>View a map of all your logs</h4></a>
 
-                <a class="text-secondary" href="/all_birds_seen"><h4>List of all birds seen</h4></a>
-                <a class="text-secondary" href="/most_seen_birds"><h4>Most frequently seen birds</h4></a>
-                <a class="text-secondary" href="/bird_map"><h4>View a map of all your logs</h4></a>
-
-            </div>    
-
-        </div>
-
-        <img src="/static/images/puffin.jpg" alt="Puffin Bird" class="main-image col-8">
+        </div>    
 
     </div>
 
-<div>
+    <img src="/static/images/puffin.jpg" alt="Puffin Bird" class="main-image col-8">
+
+</div>
 
 {% endblock %}

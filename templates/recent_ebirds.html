@@ -4,35 +4,27 @@
 
 {% block content %}
  
+<div class="row">
 
+    <img src="/static/images/linnet.jpg" alt="Linnet" class="main-image col-8">
+    
+    <div class="col-4">
+        <div class="card border-primary">
+            
+            <!-- Show eBirds get_nearby_notable() search restults at .2 decimals.-->
+            <h2 class="card-header text-primary">Birds recently seen within 
+                {{ '{0:0.2f}'.format(distance*0.621371) }} miles of  
+                {{ location_nickname }}.</h2>
 
- 
-<div>
+            <ul class="card-body text-secondary"> 
+                {% for bird in birds %}
+                    <li>{{ bird }}</li>
+                {% endfor %}
+            </ul>
+        <h6 class="text-danger"> Results powered by: Cornell Lab of Ornithology </h6>
+        </div>
+        <a class="text-primary" href="/view_past_logs">View past logs</a>
+     </div>
+</div>
 
-    <div class="row">
-
-        <img src="/static/images/linnet.jpg" alt="Linnet" class="main-image col-8">
-        
-        <div class="col-4">
-            <div class="card border-primary">
-                
-                <!-- I can edit this line to show distance, however it's not 
-                very pretty visually. -->
-                <h2 class="card-header text-primary">Birds recently seen near 
-                <!-- within {{ '{0:0.2f}'.format(distance*0.621371) }} miles of  
-                -->{{ location_nickname }}.</h2>
-
-                <ul class="card-body text-secondary"> 
-                    {% for bird in birds %}
-                        <li>{{ bird }}</li>
-                    {% endfor %}
-                </ul>
-
-            </div>
-         </div>
-    </div>
-
-<div>
-
-<!-- <a href="/homepage">Return to homepage</a> -->
 {% endblock %}

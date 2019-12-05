@@ -43,10 +43,11 @@ def registration_process():
     email = request.form.get("email")
     password = request.form.get("password")
 
-
+    # Set user and set password
     new_user = User(fname=fname, lname=lname, email=email)
     new_user.set_password(password)
 
+    # Add user to db
     db.session.add(new_user)
     db.session.commit()
 
@@ -69,6 +70,7 @@ def login_process():
     email = request.form.get("email")
     password = request.form.get("password")
 
+    # Get user by email
     user = User.query.filter_by(email=email).first()
 
     if not user:
@@ -93,7 +95,7 @@ def logout():
     session.pop("user_id", None)
     
     flash("Flutter Back Soon!")
-    return redirect("/login")
+    return redirect("/")
 
 
 @app.route('/homepage', methods=['GET'])
@@ -143,6 +145,7 @@ def new_log_process():
     # Convert list of string bird_id's into integers.
     bird_ids = [int(i) for i in request.form.getlist("bird_select")]
 
+    # Create new log
     new_log = Field_Log(date=date, time=time, location_nickname=location_nickname,
                         location=location, latitude=latitude, longitude=longitude, 
                         weather=weather, habitat=habitat, equipment=equipment, 
@@ -155,6 +158,7 @@ def new_log_process():
 
     new_log.user = User.query.get(get_current_user_id())
 
+    # Add new log to db
     db.session.add(new_log)
     db.session.commit()
     
@@ -172,10 +176,14 @@ def recent_ebirds():
     if not user_id:
         return redirect("/login")
 
+    # Get log_id
     log = Field_Log.query.get(log_id)
+
 
     records = []
     distance = 0
+    # While record count is <= 5, continue increasing distance for eBirds 
+    # get_nearby_notable() search, to add records until 5 or more records found. 
     while len(records) <= 5:
         distance += 1
         records = get_nearby_notable("hlnlefom7qq", log.latitude, log.longitude, dist=distance)
@@ -191,7 +199,9 @@ def bird_search():
 
     search_term = request.args.get("search_term")
 
+    # Query db to find any bird species including the serch_term.
     birds = Bird.query.filter(Bird.species.ilike(f'%{search_term}%')).all()
+    # Results returned are used in Select2 autocomplete feature in new_log_form.
     bird_results = {"results": [{"id": bird.bird_id, "text": bird.species} for bird in birds]}
 
     return jsonify(bird_results)
@@ -245,6 +255,7 @@ def all_birds_seen():
     if not current_user_id: 
         return redirect("/login")
 
+    # 
     birds = Bird.query \
                 .distinct() \
                 .join(bird_field_log_association_table) \
@@ -273,6 +284,7 @@ def most_seen_birds():
     if not current_user_id: 
         return redirect("/login")
 
+    # 
     birds = Bird.query \
                 .join(bird_field_log_association_table) \
                 .join(Field_Log) \

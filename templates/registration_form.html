@@ -6,38 +6,34 @@
 
 {% block content %}
  
-<div>
+<div class="row">
 
-    <div class="row">
+    <div class="col-4">
+        <div class="card border-primary">   
+          <h2 class="card-header text-primary">Register</h2>
 
-        <div class="col-4">
-            <div class="card border-primary">   
-              <h2 class="card-header text-primary">Register</h2>
+          <form action="/register" method="POST">
 
-              <form action="/register" method="POST">
+            <label for="first_name">First Name</label>
+              <input type="text" name="first_name" id="first_name"><br>
 
-                <label for="first_name">First Name</label>
-                  <input type="text" name="first_name" id="first_name"><br>
+            <label for="last_name">Last Name</label>
+              <input type="text" name="last_name" id="last_name"><br>
 
-                <label for="last_name">Last Name</label>
-                  <input type="text" name="last_name" id="last_name"><br>
+            <label for="email">Your Email</label>
+                <input type="email" name="email" id="email" required><br>
 
-                <label for="email">Your Email</label>
-                    <input type="email" name="email" id="email" required><br>
+            <label for="password">Password</label>
+              <input type="password" name="password" id="password" required><br>
 
-                <label for="password">Password</label>
-                  <input type="password" name="password" id="password" required><br>
+            <input type="submit" value="Submit">
 
-                <input type="submit" value="Submit">
-
-              </form>
-            </div>
+          </form>
         </div>
-
-        <img src="/static/images/hornbill.jpg" alt="Red-billed Hornbill" class="main-image col-8">
-
     </div>
 
-<div>
+    <img src="/static/images/hornbill.jpg" alt="Red-billed Hornbill" class="main-image col-8">
+
+</div>
 
 {% endblock %}

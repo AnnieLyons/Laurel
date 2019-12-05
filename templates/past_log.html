@@ -5,84 +5,81 @@
 
 {% block content %}
 
-<div>
+<div class="row">
 
-    <div class="row">
+    <div class="col-4">
+        <div class="card border-primary">
 
-        <div class="col-4">
-            <div class="card border-primary">
+            <h2 class="card-header text-primary">Here's your peek into the past.</h2>
 
-                <h2 class="card-header text-primary">Here's your peek into the past.</h2>
+            <div class="text-secondary">
+                <table>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{{ log.date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td>{{ log.time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td>{{ log.location }}</td>
+                    </tr>
+                    <tr>
+                        <td>Weather:</td>
+                        <td>{{ log.weather }}</td>
+                    </tr>
+                    <tr>
+                        <td>Habitat</td>
+                        <td>{{ log.habitat }}</td>
+                    </tr>
+                    <tr>
+                        <td>Equipment:</td>
+                        <td>{{ log.equipment }}</td>
+                    </tr>
+                    <tr>
+                        <td>Notes:</td>
+                        <td>{{ log.notes }}</td>
+                    </tr>
+                </table>
 
-                <div class="text-secondary">
-                    <table>
-                        <tr>
-                            <td>Date:</td>
-                            <td>{{ log.date }}</td>
-                        </tr>
-                        <tr>
-                            <td>Time:</td>
-                            <td>{{ log.time }}</td>
-                        </tr>
-                        <tr>
-                            <td>Location:</td>
-                            <td>{{ log.location }}</td>
-                        </tr>
-                        <tr>
-                            <td>Weather:</td>
-                            <td>{{ log.weather }}</td>
-                        </tr>
-                        <tr>
-                            <td>Habitat</td>
-                            <td>{{ log.habitat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Equipment:</td>
-                            <td>{{ log.equipment }}</td>
-                        </tr>
-                        <tr>
-                            <td>Notes:</td>
-                            <td>{{ log.notes }}</td>
-                        </tr>
-                    </table>
-
-                    <p>Birds:</p>
-                    <ol>
-                        {% for bird in log.birds %}
-                            <div>-{{ bird.species }}</div>
-                        {% endfor %}
-                    </ol>    
-                    
-                    <div id="map"></div>
-                </div>
+                <p>Birds:</p>
+                <ol>
+                    {% for bird in log.birds %}
+                        <div>-{{ bird.species }}</div>
+                    {% endfor %}
+                </ol>    
+                
+                <div id="map"></div>
             </div>
         </div>
-
-        <img src="/static/images/waxbill.jpg" alt="Waxbill" class="main-image col-8">
-
     </div>
 
-
-    <script type="text/javascript">
-        const loc = {lat: {{ log.latitude }}, lng: {{ log.longitude }} };
-
-        // Initialize and add the map
-        function initMap() {
-
-            const map = new google.maps.Map($('#map')[0], {
-              zoom: 11,
-              center: loc
-            });
-
-            const marker = new google.maps.Marker({
-                position: loc,
-                map: map
-            });
-        }
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
+    <img src="/static/images/waxbill.jpg" alt="Waxbill" class="main-image col-8">
 
 </div>
+
+
+<script type="text/javascript">
+    const loc = {lat: {{ log.latitude }}, lng: {{ log.longitude }} };
+
+    // Initialize and add the map
+    function initMap() {
+
+        const map = new google.maps.Map($('#map')[0], {
+          zoom: 11,
+          center: loc
+        });
+
+        const marker = new google.maps.Marker({
+            position: loc,
+            map: map
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
+
 
 {% endblock %}

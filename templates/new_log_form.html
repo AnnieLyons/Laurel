@@ -4,74 +4,67 @@
 
 {% block content %}
 
-<div>
+<div class="row">  
+  <div class="col-4">
+    <div class="card border-primary">
 
-  <div class="row">  
+      <h2 class="card-header text-primary">Let birding commence!</h2><br>
 
-    <div class="col-4">
-         
-      <div class="card border-primary">
+      <form class="card-body text-primary" action="/new_log_entry" method="POST">
 
-        <h2 class="card-header text-primary">Let birding commence!</h2><br>
+        <label for="date">Date</label>
+          <input type="date" name="date" id="date"><br>
 
-        <form class="card-body text-primary" action="/new_log_entry" method="POST">
+         <label for="time">Time</label>
+          <input type="time" name="time" id="time"><br>
 
-          <label for="date">Date</label>
-            <input type="date" name="date" id="date"><br>
+         <label for="location_nickname">Location Nickname</label>
+          <input type="text" name="location_nickname" id="location_nickname"><br>
 
-           <label for="time">Time</label>
-            <input type="time" name="time" id="time"><br>
+         <label for="location">Location</label>
+          <input type="text" name="location" id="location" required readonly><br>
 
-           <label for="location_nickname">Location Nickname</label>
-            <input type="text" name="location_nickname" id="location_nickname"><br>
+          <div id="result">
+            <label for="latitude"></label>
+            <input type="hidden" name="latitude" id="latitude">
+            <label for="longitude"></label>
+            <input type="hidden" name="longitude" id="longitude"> 
+                  <!--Position information will be inserted here-->
+            <button type="button" onclick="showPosition();">Auto Log Your Location</button>
+          </div>
 
-           <label for="location">Location</label>
-            <input type="text" name="location" id="location" required readonly><br>
+         <label for="weather">Weather</label>
+          <input type="text" name="weather" id="weather"><br>
 
-            <div id="result">
-              <label for="latitude"></label>
-              <input type="hidden" name="latitude" id="latitude">
-              <label for="longitude"></label>
-              <input type="hidden" name="longitude" id="longitude"> 
-                    <!--Position information will be inserted here-->
-              <button type="button" onclick="showPosition();">Auto Log Your Location</button>
-            </div>
+         <label for="habitat">Habitat</label>
+          <input type="text" name="habitat" id="habitat"><br>
 
-           <label for="weather">Weather</label>
-            <input type="text" name="weather" id="weather"><br>
+         <label for="equipment">Equipment</label>
+          <input type="text" name="equipment" id="equipment"><br>
 
-           <label for="habitat">Habitat</label>
-            <input type="text" name="habitat" id="habitat"><br>
+         <label for="notes">Notes</label>
+          <textarea name="notes" id="notes"></textarea><br> 
+        
+        <label for="bird_select">Birds Seen*</label>
+        <select name="bird_select" id="bird_select" multiple="multiple"></select>
+        
+        <br>
+          <input type="submit" value="Submit!">
+      </form>
 
-           <label for="equipment">Equipment</label>
-            <input type="text" name="equipment" id="equipment"><br>
-
-           <label for="notes">Notes</label>
-            <textarea name="notes" id="notes"></textarea><br> 
-          
-          <label for="bird_select">Birds Seen*</label>
-          <select name="bird_select" id="bird_select" multiple="multiple"></select>
-          
-          <br>
-            <input type="submit" value="Submit!">
-        </form>
-
-        <h6 class="card-footer text-secondary">*North and Middle American Species</h6>
-
-      </div>
-    </div>
-
-    <img src="/static/images/blue_tit.jpg" alt="Blue Tit" class="main-image col-8">
+      <h6 class="card-footer text-secondary">*North and Middle American Species</h6>
 
     </div>
-    
   </div>
 
-</div>  
+  <img src="/static/images/blue_tit.jpg" alt="Blue Tit" class="main-image col-8">
+
+  </div>
+</div> 
 
 <script type="text/javascript">
 
-    // Autocomplete bird selection box
+    // Autocomplete bird selection box.
     $('#bird_select').select2({
       ajax: {
         url: '/bird_search',
@@ -85,24 +78,30 @@
       width: "300px"
     });
 
-    // Location grabbing and display
+    // Location grabbing and display.
     const showPosition = () => {
       if(navigator.geolocation) {
+        // Get and set current lat and lng from html.
         navigator.geolocation.getCurrentPosition( (position) => {
           const positionInfoLatitude = position.coords.latitude;
           const positionInfoLongitude = position.coords.longitude;
 
+          // 
           $('#latitude').attr('value', positionInfoLatitude);
           $('#longitude').attr('value', positionInfoLongitude);
-          // FIXME: Should the API key be secure somehow?
+
+          // Use Google Maps Geolocation to get address of lat and lng. 
           $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${positionInfoLatitude},${positionInfoLongitude}&key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40`, (response) => {
               $('#location').val(response.results[0].formatted_address);
           });
 
+          // Set location to lat and lng.
           const loc = {lat: positionInfoLatitude, lng: positionInfoLongitude};
 
+          // 
           $( "#result" ).after( "<div id='map'></div>" );
           
+          // Initialize map at location.
           initMap(loc);
         });
       } else {
@@ -110,7 +109,7 @@
       }
     };
 
-    // Initialize and add the map
+    // Initialize and add the map and marker.
     function initMap(loc) {
 
         const map = new google.maps.Map($('#map')[0], {
