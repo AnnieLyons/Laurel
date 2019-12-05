@@ -4,18 +4,38 @@
 
 {% block content %}
 
-<div>
-    <h2>Check out your most frequently seen birds!</h2><br>
 
-    <ol>
-        {% for bird in birds %}
-            <li>
-                Species: {{ bird[0] }}
-                <br> 
-                Times seen: {{ bird[1] }}
-            </li>
-        {% endfor %}    
-    </ol>
-</div>
+<div>
+
+    <div class="row">
+
+         <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/king_fisher.jpg" alt="King Fisher" class="main-image">
+            </div>
+
+        </div>
+
+        <div class="col-4">
+            <div class="card border-primary">
+                <h2 class="card-header text-primary">Check out your most frequently seen birds!</h2>
+                
+                <ol class="card-body text-secondary">
+                    {% for bird in birds %}
+                        <li>
+                            {{ bird[0] }}
+                            <br> 
+                            Times seen: {{ bird[1] }}
+                        </li>
+                    {% endfor %}    
+                 </ol>
+                 <a class="card-body text-primary" href="/stats">Return to stats</a>
+            </div>     
+         </div>
+
+    </div>
+
+<div>
 
 {% endblock %}

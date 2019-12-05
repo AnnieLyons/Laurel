@@ -1,21 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}Resources{% endblock %}
+{% block title %}Homepage{% endblock %}
 
 {% block content %}
 
 <div>
-    <h2>Check out these resources:</h2>
 
-    <h4>For help identifying birds by sight: <a href="https://www.birds.cornell.edu/home/">Cornell University: Dept of Ornithology</a></h4>
+    <div class="row">
 
-    <h4>For help identifying bird songs: <a href="https://nationalzoo.si.edu/scbi/migratorybirds/education/nasongkey.pl">PWRC: Guide to North American Bird Songs and Sounds</a></h4>
+        <div class="col-4">
+            <div class="card border-primary">
+                <h2 class="card-header text-primary">Helpful resources:</h2>
 
-    <h4>For help identifying bird eggs: <a href="https://thebirdersreport.com/egg-and-nest-identification">The Birders Report: Egg and Nest Identification</a></h4>
+                <h4 class="text-secondary">Help identifying birds by sight: <a href="https://www.birds.cornell.edu/home/">Cornell University: Dept of Ornithology</a></h4>
 
-    <h6>*Birds in logs provided by: <a href="http://checklist.aou.org/">American Ornithological Society</a></h6>
+                <h4 class="text-secondary">Help identifying bird songs: <a href="https://nationalzoo.si.edu/scbi/migratorybirds/education/nasongkey.pl">PWRC: Guide to North American Bird Songs and Sounds</a></h4>
 
-    <h6>*Birds recently reported in your area provided by: <a href="https://ebird.org/home"> eBird: Cornell Lab of Ornithology</a></h6>
-</div>
+                <h4 class="text-secondary">Help identifying bird eggs: <a href="https://thebirdersreport.com/egg-and-nest-identification">The Birders Report: Egg and Nest Identification</a></h4>
+            </div>
+        </div>
+        <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/owl.jpg" alt="Owl" class="main-image">
+            </div>
+
+        </div>
+
+    </div>
+
+<div>
 
 {% endblock %}

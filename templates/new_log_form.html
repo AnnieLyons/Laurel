@@ -5,58 +5,75 @@
 {% block content %}
 
 <div>
-  <h2>Let birding commence!</h2><br>
 
-  <form action="/new_log_entry" method="POST">
+  <div class="row">  
 
-    <label for="date">Date</label>
-      <input type="date" name="date" id="date"><br>
+    <div class="col-4">
+         
+      <div class="card border-primary">
 
-     <label for="time">Time</label>
-      <input type="time" name="time" id="time"><br>
+        <h2 class="card-header text-primary">Let birding commence!</h2><br>
 
-     <label for="location_nickname">Location Nickname</label>
-      <input type="text" name="location_nickname" id="location_nickname"><br>
+        <form class="card-body text-primary" action="/new_log_entry" method="POST">
 
-     <label for="location">Location</label>
-      <input type="text" name="location" id="location" required readonly><br>
+          <label for="date">Date</label>
+            <input type="date" name="date" id="date"><br>
 
-      <div id="result">
-        <label for="latitude"></label>
-        <input type="hidden" name="latitude" id="latitude">
-        <label for="longitude"></label>
-        <input type="hidden" name="longitude" id="longitude"> 
-              <!--Position information will be inserted here-->
-        <button type="button" onclick="showPosition();">Auto Log Your Location</button>
+           <label for="time">Time</label>
+            <input type="time" name="time" id="time"><br>
+
+           <label for="location_nickname">Location Nickname</label>
+            <input type="text" name="location_nickname" id="location_nickname"><br>
+
+           <label for="location">Location</label>
+            <input type="text" name="location" id="location" required readonly><br>
+
+            <div id="result">
+              <label for="latitude"></label>
+              <input type="hidden" name="latitude" id="latitude">
+              <label for="longitude"></label>
+              <input type="hidden" name="longitude" id="longitude"> 
+                    <!--Position information will be inserted here-->
+              <button type="button" onclick="showPosition();">Auto Log Your Location</button>
+            </div>
+
+           <label for="weather">Weather</label>
+            <input type="text" name="weather" id="weather"><br>
+
+           <label for="habitat">Habitat</label>
+            <input type="text" name="habitat" id="habitat"><br>
+
+           <label for="equipment">Equipment</label>
+            <input type="text" name="equipment" id="equipment"><br>
+
+           <label for="notes">Notes</label>
+            <textarea name="notes" id="notes"></textarea><br> 
+          
+          <label for="bird_select">Birds Seen*</label>
+          <select name="bird_select" id="bird_select" multiple="multiple"></select>
+          
+          <br>
+            <input type="submit" value="Submit!">
+        </form>
+
+        <h6 class="card-footer text-secondary">*North and Middle American Species</h6>
+
+      </div>
+    </div>
+
+    <div class="col-8">
+        
+      <div class="text-center">
+          <img src="/static/images/blue_tit.jpg" alt="Blue Tit" class="main-image">
       </div>
 
-     <label for="weather">Weather</label>
-      <input type="text" name="weather" id="weather"><br>
-
-     <label for="habitat">Habitat</label>
-      <input type="text" name="habitat" id="habitat"><br>
-
-     <label for="equipment">Equipment</label>
-      <input type="text" name="equipment" id="equipment"><br>
-
-     <label for="notes">Notes</label>
-      <textarea name="notes" id="notes"></textarea><br> 
+    </div>
     
-    <label for="bird_select">Birds Seen*</label>
-    <select name="bird_select" id="bird_select" multiple="multiple"></select>
-    
-    <br>
-      <input type="submit" value="Submit!">
-  </form>
+  </div>
 
-  <!-- <a href="/homepage">Return to homepage</a> -->
-  <h6>*Laurel is currently compatible with North and Middle American Species</h6>
 </div>  
 
 <script type="text/javascript">
-
-  // <!-- FIXME: Document Ready prevents showPosition from running. -->
-  // $(document).ready( () => {
 
     // Autocomplete bird selection box
     $('#bird_select').select2({
@@ -69,7 +86,7 @@
         }
       },
       placeholder: "Search for bird name.",
-      width: "500px"
+      width: "300px"
     });
 
     // Location grabbing and display
@@ -110,7 +127,7 @@
             map: map
         });
     }
-  // });
+    
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40" async defer></script>

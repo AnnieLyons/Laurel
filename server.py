@@ -431,6 +431,18 @@ def contact():
     return render_template("contact.html")
 
 
+@app.route('/credits', methods=['GET'])
+def credits():
+    """Display contact information."""
+
+    user_id = get_current_user_id()
+
+    if not user_id:
+        return redirect("/login")
+    
+    return render_template("credits.html")
+
+
 def get_current_user():
     """Returns user object for current user_id."""
 

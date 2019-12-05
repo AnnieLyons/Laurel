@@ -3,16 +3,39 @@
 {% block title %}eBirds{% endblock %}
 
 {% block content %}
+ 
+<div>
+
+    <div class="row">
+
+         <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/linnet.jpg" alt="Linnet" class="main-image">
+            </div>
+
+        </div>
+        
+        <div class="col-4">
+            <div class="card border-primary">
+                
+                <!-- I can edit this line to show distance, however it's not 
+                very pretty visually. -->
+                <h2 class="card-header text-primary">Birds recently seen near 
+                <!-- within {{ '{0:0.2f}'.format(distance*0.621371) }} miles of  
+                -->{{ location_nickname }}.</h2>
+
+                <ul class="card-body text-secondary"> 
+                    {% for bird in birds %}
+                        <li>{{ bird }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+         </div>
+    </div>
 
 <div>
-    <h2>Birds recently reported within {{ '{0:0.2f}'.format(distance*0.621371) }} miles of {{ location_nickname }}.</h2>
-
-    <ul> 
-        {% for bird in birds %}
-            <li>{{ bird }}</li>
-        {% endfor %}
-    </ul>
-</div>
 
 <!-- <a href="/homepage">Return to homepage</a> -->
 {% endblock %}

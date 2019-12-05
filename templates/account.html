@@ -1,25 +1,35 @@
+
 {% extends 'base.html' %}
 
-{% block title %}Your Account{% endblock %}
+{% block title %}Homepage{% endblock %}
 
 {% block content %}
 
-<h2>Account Information.</h2>
+<div>
 
-    <div> 
-        <a href="/update_name">
-            <h4>Update Name</h4> 
-        </a>
+    <div class="row">
+
+        <div class="col-4">
+            <div class="card border-primary">
+                <h2 class="card-header text-primary">Account Information.</h2>
+
+                <a class="text-secondary" href="/update_name"><h4>Update Name</h4></a>
+                <a class="text-secondary" href="/update_email"><h4>Update Email</h4></a>
+                <a class="text-secondary" href="/change_password"><h4>Change Password</h4></a>
+
+            </div>    
+
+        </div>
+        <div class="col-8">
         
-        <a href="/update_email">
-            <h4>Update Email</h4>
-        </a>
+            <div class="text-center">
+                <img src="/static/images/parots2.jpg" alt="Parots" class="main-image">
+            </div>
 
-        <a href="/change_password">
-            <h4>Change Password</h4>
-        </a>
+        </div>
 
     </div>
 
-<a href="/homepage">Return to homepage</a>
+<div>
+
 {% endblock %}

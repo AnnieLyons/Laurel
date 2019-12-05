@@ -1,49 +1,74 @@
+
 {% extends 'base.html' %}
 
-{% block title %}Bird Map{% endblock %}
+{% block title %}Top Birds{% endblock %}
 
 {% block content %}
 
-<h2>Check out your log map!</h2><br>
 
-<div id="map" style="width: 400px; height: 400px;"></div>
+<div>
 
-<script type="text/javascript">
-    const locations = [
-    {% for log in logs %}
-        {lat: {{ log.latitude }}, lng: {{ log.longitude }} },
-    {% endfor %}
-    ]; 
+    <div class="row">
 
-    // Initialize and add the map
-    function initMap() {
+        <div class="col-4">
+            <div class="card border-primary">
+                <h2 h2 class="card-header text-primary">Map your logs!</h2>
 
-        const map = new google.maps.Map($('#map')[0], {
-          zoom: 5,
-          center: {lat: {{ logs[0].latitude }}, lng: {{ logs[0].longitude }} }
-        });
+                <div id="map" style="width: 395px; height: 395px;"></div>
 
-        // Create an array of alphabetical characters used to label the markers.
-        const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                <a href="/stats">Return to stats</a>
 
-        // Add some markers to the map.
-        // Note: The code uses the JavaScript Array.prototype.map() method to
-        // create an array of markers based on a given "locations" array.
-        // The map() method here has nothing to do with the Google Maps API.
-        const markers = locations.map(function(location, i) {
-          return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
-          });
-        });
+                <script type="text/javascript">
+                const locations = [
+                {% for log in logs %}
+                    {lat: {{ log.latitude }}, lng: {{ log.longitude }} },
+                {% endfor %}
+                ]; 
 
-        // Add a marker clusterer to manage the markers.
-        const markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-    }
-</script>
+                // Initialize and add the map
+                function initMap() {
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+                    const map = new google.maps.Map($('#map')[0], {
+                      zoom: 5,
+                      center: {lat: {{ logs[0].latitude }}, lng: {{ logs[0].longitude }} }
+                    });
+
+                    // Create an array of alphabetical characters used to label the markers.
+                    const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+                    // Add some markers to the map.
+                    // Note: The code uses the JavaScript Array.prototype.map() method to
+                    // create an array of markers based on a given "locations" array.
+                    // The map() method here has nothing to do with the Google Maps API.
+                    const markers = locations.map(function(location, i) {
+                      return new google.maps.Marker({
+                        position: location,
+                        label: labels[i % labels.length]
+                      });
+                    });
+
+                    // Add a marker clusterer to manage the markers.
+                    const markerCluster = new MarkerClusterer(map, markers,
+                        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                }
+
+                </script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
+                <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+            </div>
+         </div>
+         
+         <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/tanager.jpg" alt="Flame-colored Tanager" class="main-image">
+            </div>
+
+        </div>
+    </div>
+
+<div>
 
 {% endblock %}
+

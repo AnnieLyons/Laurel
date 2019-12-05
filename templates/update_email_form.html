@@ -1,19 +1,39 @@
+
+
 {% extends 'base.html' %}
 
-{% block title %}Update Email{% endblock %}
+{% block title %}Top Birds{% endblock %}
 
 {% block content %}
-<h1>Please enter the fields bellow to update your email!</h1>
 
 
-<form action="/update_email" method="POST">
+<div>
 
-    <label for="email">New eamil address</label>
-    <input type="email" name="email" id="email" required><br>
-     
-    <input type="submit" value="Submit!">
+    <div class="row">
 
-</form>
+        <div class="col-4">
+            <h2>Please enter the fields bellow to update your email!</h2>
 
-<a href="/homepage">Return to homepage</a>
+            <form action="/update_email" method="POST">
+
+                <label for="email">New eamil address</label>
+                <input type="email" name="email" id="email" required><br>
+                 
+                <input type="submit" value="Submit!">
+
+            </form>
+            <a href="/account">Return to account</a><br>
+         </div>
+         <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/blue_birds.jpg" alt="Blue Birds" class="main-image">
+            </div>
+
+        </div>
+
+    </div>
+
+<div>
+
 {% endblock %}

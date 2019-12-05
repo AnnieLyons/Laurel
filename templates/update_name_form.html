@@ -1,22 +1,42 @@
+
+
 {% extends 'base.html' %}
 
-{% block title %}Past Logs{% endblock %}
+{% block title %}Top Birds{% endblock %}
 
 {% block content %}
-<h1>Please enter the fields bellow to update your name!</h1>
 
 
-<form action="/update_name" method="POST">
+<div>
 
-    <label for="fname">New First Name</label>
-    <input type="text" name="fname" id="fname" required><br>
-    
-    <label for="lname">New Last Name</label>
-    <input type="text" name="lname" id="lname" required><br>
-     
-    <input type="submit" value="Submit!">
+    <div class="row">
 
-</form>
+        <div class="col-4">
+            <h2>Please enter the fields bellow to update your name!</h2>
 
-<a href="/homepage">Return to homepage</a>
+            <form action="/update_name" method="POST">
+
+                <label for="fname">New First Name</label>
+                <input type="text" name="fname" id="fname" required><br>
+                
+                <label for="lname">New Last Name</label>
+                <input type="text" name="lname" id="lname" required><br>
+                 
+                <input type="submit" value="Submit!">
+
+            </form>
+            <a href="/account">Return to account</a><br>
+         </div>
+         <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/penguins.jpg" alt="Penguins" class="main-image">
+            </div>
+
+        </div>
+
+    </div>
+
+<div>
+
 {% endblock %}

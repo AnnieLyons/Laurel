@@ -1,39 +1,64 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Past Logs{% endblock %}
 
 {% block content %}
 
-<h1>Here's your peek into the past.</h1>
+<div>
 
-<div>  Date: {{ log.date }} / Time: {{ log.time }} / Location: {{ log.location }} / Weather: {{ log.weather }} / Habitat: {{ log.habitat }} / Equipment: {{ log.equipment }} / Notes: {{ log.notes }} </div>
+    <div class="row">
 
-<div>Birds:
-    {% for bird in log.birds %}
-        <div>{{ bird.species }}</div>
-    {% endfor %}
+        <div class="col-4">
+            <div class="card border-primary">
+
+                <h2 class="card-header text-primary">Here's your peek into the past.</h2>
+
+                <div class="text-secondary">  Date: {{ log.date }} / Time: {{ log.time }} / Location: {{ log.location }} / Weather: {{ log.weather }} / Habitat: {{ log.habitat }} / Equipment: {{ log.equipment }} / Notes: {{ log.notes }} </div>
+
+                    <div class="text-secondary">Birds:
+                        <ol>
+                            {% for bird in log.birds %}
+                                <div>-{{ bird.species }}</div>
+                            {% endfor %}
+                        </ol>    
+                    </div>
+                    
+                <div id="map" style="width: 250px; height: 250px;"></div>
+            </div>
+        </div>
+
+        <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/waxbill.jpg" alt="Waxbill" class="main-image">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+        const loc = {lat: {{ log.latitude }}, lng: {{ log.longitude }} };
+
+        // Initialize and add the map
+        function initMap() {
+
+            const map = new google.maps.Map($('#map')[0], {
+              zoom: 11,
+              center: loc
+            });
+
+            const marker = new google.maps.Marker({
+                position: loc,
+                map: map
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
+
 </div>
-
-<div id="map" style="width: 250px; height: 250px;"></div>
-
-<script type="text/javascript">
-    const loc = {lat: {{ log.latitude }}, lng: {{ log.longitude }} };
-
-    // Initialize and add the map
-    function initMap() {
-
-        const map = new google.maps.Map($('#map')[0], {
-          zoom: 11,
-          center: loc
-        });
-
-        const marker = new google.maps.Marker({
-            position: loc,
-            map: map
-        });
-    }
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40&callback=initMap" async defer></script>
 
 {% endblock %}

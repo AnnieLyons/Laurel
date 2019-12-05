@@ -5,14 +5,32 @@
 {% block content %}
 
 <div>
-    <h2> Which past log would you like to view?</h2>
 
-    {% for log in user_logs %}
-        <div> 
-            <a href="/view_past_log/{{ log.log_id }}">
-                Date: {{ log.date }} / Location: {{ log.location }} 
-            </a> 
+    <div class="row">
+
+        <div class="col-4">
+            <div class="card border-primary">
+                <h2 class="card-header text-primary"> Which past log would you like to view?</h2>
+            </div>
+            <div class="card border-primary">
+                {% for log in user_logs %} 
+                        <a class="card border-primary text-secondary" href="/view_past_log/{{ log.log_id }}">
+                        Date: {{ log.date }} / Location: {{ log.location_nickname }} 
+                        </a>  
+                {% endfor %}
+            </div>
         </div>
-    {% endfor %}
-</h2>
+
+        <div class="col-8">
+        
+            <div class="text-center">
+                <img src="/static/images/grebe.jpg" alt="Great Crested Grebe" class="main-image">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
