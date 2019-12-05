@@ -4,29 +4,18 @@
 
 {% block content %}
 
- 
-<div>
+<div class="row">
 
-    <div class="row">
-
-        <div class="col-4">
-            <div class="card border-primary">
-                <h2 class="card-header text-primary">Hello {{ user.fname }}!</h2>
-                <h5 class="card-body text-secondary">Welcome to Laurel,<br/>where birding awaits.</h5>
-            </div>
+    <div class="col-4">
+        <div class="card border-primary">
+            <h2 class="card-header text-primary">Hello {{ user.fname }}!</h2>
+            <h5 class="card-body text-secondary">Welcome to Laurel,<br/>where birding awaits.</h5>
         </div>
-
-        <div class="col-8">
-        
-        <div class="text-center">
-            <img src="/static/images/warbler.jpg" alt="Yellow Warbler" class="main-image">
-        </div>
-
-        </div>
-
     </div>
 
+    <img src="/static/images/warbler.jpg" alt="Yellow Warbler" class="main-image col-8">
 
-  </div>
+</div>
+
 
 {% endblock %}

@@ -14,27 +14,51 @@
 
                 <h2 class="card-header text-primary">Here's your peek into the past.</h2>
 
-                <div class="text-secondary">  Date: {{ log.date }} / Time: {{ log.time }} / Location: {{ log.location }} / Weather: {{ log.weather }} / Habitat: {{ log.habitat }} / Equipment: {{ log.equipment }} / Notes: {{ log.notes }} </div>
+                <div class="text-secondary">
+                    <table>
+                        <tr>
+                            <td>Date:</td>
+                            <td>{{ log.date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Time:</td>
+                            <td>{{ log.time }}</td>
+                        </tr>
+                        <tr>
+                            <td>Location:</td>
+                            <td>{{ log.location }}</td>
+                        </tr>
+                        <tr>
+                            <td>Weather:</td>
+                            <td>{{ log.weather }}</td>
+                        </tr>
+                        <tr>
+                            <td>Habitat</td>
+                            <td>{{ log.habitat }}</td>
+                        </tr>
+                        <tr>
+                            <td>Equipment:</td>
+                            <td>{{ log.equipment }}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes:</td>
+                            <td>{{ log.notes }}</td>
+                        </tr>
+                    </table>
 
-                    <div class="text-secondary">Birds:
-                        <ol>
-                            {% for bird in log.birds %}
-                                <div>-{{ bird.species }}</div>
-                            {% endfor %}
-                        </ol>    
-                    </div>
+                    <p>Birds:</p>
+                    <ol>
+                        {% for bird in log.birds %}
+                            <div>-{{ bird.species }}</div>
+                        {% endfor %}
+                    </ol>    
                     
-                <div id="map" style="width: 250px; height: 250px;"></div>
+                    <div id="map"></div>
+                </div>
             </div>
         </div>
 
-        <div class="col-8">
-        
-            <div class="text-center">
-                <img src="/static/images/waxbill.jpg" alt="Waxbill" class="main-image">
-            </div>
-
-        </div>
+        <img src="/static/images/waxbill.jpg" alt="Waxbill" class="main-image col-8">
 
     </div>
 

@@ -4,11 +4,14 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Field_Log, Bird, bird_field_log_association_table
 from sqlalchemy import func, desc
 from ebird.api import get_nearby_notable
+import os
 
 app = Flask(__name__)
 
 # Required to use Flask sessions and debugging toolbar. 
-app.secret_key = b'b\xd4\xa8\xf6#\x13\x14\x95\x8b\xb2\x19\x0c]\xea-\xef\xb0l\xd5\x92\xef\x10_['
+# Generate a random secret key on each server start.
+# Users will have to log in every time it restarts, but ... security!
+app.secret_key = os.urandom(32)
 
 # Causes an undefined variable in jinja to throw an error, instead of failing silently. 
 app.jinja_env.undefined = StrictUndefined

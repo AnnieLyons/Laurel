@@ -34,7 +34,7 @@
     {% if session.get('user_id') %}
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/homepage">Laurel</a> 
+      <a class="navbar-brand" href="/homepage"><img id="home-icon" src="/static/images/bird_icon.png">Laurel</a> 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -72,7 +72,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       
-      <a class="navbar-brand" href="/">Laurel</a> 
+      <a class="navbar-brand" href="/"><img id="home-icon" src="/static/images/bird_icon.png">Laurel</a> 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -96,11 +96,11 @@
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <ul class=flashes>
+        <div class="alert alert-primary">
         {% for message in messages %}
-          <li>{{ message }}</li>
+          {{ message }}
         {% endfor %}
-        </ul>
+        </div>
       {% endif %}
     {% endwith %}
 

@@ -61,11 +61,7 @@
       </div>
     </div>
 
-    <div class="col-8">
-        
-      <div class="text-center">
-          <img src="/static/images/blue_tit.jpg" alt="Blue Tit" class="main-image">
-      </div>
+    <img src="/static/images/blue_tit.jpg" alt="Blue Tit" class="main-image col-8">
 
     </div>
     
@@ -105,7 +101,7 @@
 
           const loc = {lat: positionInfoLatitude, lng: positionInfoLongitude};
 
-          $( "#result" ).after( "<div id='map' style='width: 250px; height: 250px;'></div>" );
+          $( "#result" ).after( "<div id='map'></div>" );
           
           initMap(loc);
         });
