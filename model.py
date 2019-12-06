@@ -104,11 +104,11 @@ class Field_Log(db.Model):
         return f"<Field_Log log_id={self.log_id} date={self.date} location={self.location}"
 
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri="postgres:///laurel"):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///laurel"
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["SQLALCHEMY_ECHO"] = True
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False

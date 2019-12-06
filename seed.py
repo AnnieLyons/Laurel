@@ -17,21 +17,18 @@ def load_birds():
     db.session.commit()
 
 def make_users():
-    u1 = User(fname='Ashley',lname='Lastname',email='Ashley@cheese.com')
-    u1.set_password('hellohello')
+
+    u1 = User(fname='Solomon',lname='Bisker',email='Sol@cheese.com')
+    u1.set_password('solsol')
     db.session.add(u1)
 
-    u2 = User(fname='Solomon',lname='Bisker',email='Sol@cheese.com')
-    u2.set_password('solsol')
+    u2 = User(fname='Susanna',lname='Lyons',email='SusAnnie@cheese.com')
+    u2.set_password('annieannie')
     db.session.add(u2)
 
-    u3 = User(fname='Annie',lname='Lyons',email='Annie@cheese.com')
+    u3 = User(fname='Michael',lname='Borohovski',email='borski@cheese.com')
     u3.set_password('borskiborski')
     db.session.add(u3)
-
-    u4 = User(fname='Susanna',lname='Lyons',email='SusAnnie@cheese.com')
-    u4.set_password('annieannie')
-    db.session.add(u4)
 
     db.session.commit()
 
