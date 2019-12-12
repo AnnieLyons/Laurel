@@ -13,8 +13,14 @@ class TestFlaskRoutes(unittest.TestCase):
         self.client = app.test_client()
         connect_to_db(app, db_uri='postgresql:///testdb')
         db.create_all()
+
         #example_data will error out atm, need to create
         make_users()
+
+        bird = Bird(species="bluebird", 
+                    scientific_name="reallyo scientifico bluebirdius")
+        db.session.add(bird)
+        db.session.commit()
 
     def tearDown(self):
         db.session.remove()
@@ -47,107 +53,172 @@ class TestFlaskRoutes(unittest.TestCase):
         
     def test_bird_search(self):
         """Test logout page intial rendering"""
-        result = self.client.get('/bird_search')
+        result = self.client.get('/bird_search?search_term=blue')
         self.assertEqual(result.status_code, 200)
-        # self.assertIn(b"search_term", result.data)    
+        self.assertIn(b"blue", result.data)    
 
-        # Is redirecting to Login because of the session user_id... 
-        # without follow_redirects=True it gets a 302 status code.
-    # def test_homepage(self):
-    #     """Test homepage initial rendering"""
-    #     result = self.client.get('/homepage', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Hello", result.data)   
+    def test_homepage(self):
+        """Test homepage initial rendering"""
 
-    # def test_new_log_entry(self):
-    #     """Test make new log page initial rendering"""
-    #     result = self.client.get('/new_log_entry', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Let birding commence!", result.data)  
+        # Setting user_id for current session.
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/homepage', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Hello", result.data)   
+
+    def test_new_log_entry(self):
+        """Test make new log page initial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/new_log_entry', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Let birding commence!", result.data)  
 
     # def test_recent_ebirds(self):
     #     """Test logout page intial rendering"""
+
+    #     with self.client.session_transaction() as sess:
+    #         sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+
     #     result = self.client.get('/recent_ebirds', follow_redirects=True)
     #     self.assertEqual(result.status_code, 200)
     #     self.assertIn(b"Cornell Lab of Ornithology", result.data)
 
-    # def test_view_past_logs(self):
-    #     """Test view past logs page intial rendering"""
-    #     result = self.client.get('/view_past_logs', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Which past log", result.data)
+    def test_view_past_logs(self):
+        """Test view past logs page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/view_past_logs', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Which past log", result.data)
 
     # def test_view_past_log(self):
     #     """Test view_past_log page intial rendering"""
+
+    #     with self.client.session_transaction() as sess:
+    #         sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
     #     result = self.client.get('/view_past_log/<log_id>', follow_redirects=True)
     #     self.assertEqual(result.status_code, 200)
     #     self.assertIn(b"peek into the past", result.data)
 
-    # def test_stats(self):
-    #     """Test stats page intial rendering"""
-    #     result = self.client.get('/stats', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Your bird stats", result.data)
+    def test_stats(self):
+        """Test stats page intial rendering"""
 
-    # def test_all_birds_seen(self):
-    #     """Test all_birds_seen page intial rendering"""
-    #     result = self.client.get('/all_birds_seen', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"identified species", result.data)
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
 
-    # def test_most_seen_birds(self):
-    #     """Test most_seen_birds page intial rendering"""
-    #     result = self.client.get('/most_seen_birds', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"frequently seen birds", result.data)
+        result = self.client.get('/stats', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Your bird stats", result.data)
+
+    def test_all_birds_seen(self):
+        """Test all_birds_seen page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+
+        result = self.client.get('/all_birds_seen', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"identified species", result.data)
+
+    def test_most_seen_birds(self):
+        """Test most_seen_birds page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/most_seen_birds', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"frequently seen birds", result.data)
 
     # def test_bird_map(self):
     #     """Test bird map page intial rendering"""
+
+    #     with self.client.session_transaction() as sess:
+    #         sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
     #     result = self.client.get('/bird_map', follow_redirects=True)
     #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Map your logs", result.data)
+    #     self.assertIn(b"Map your logs!", result.data)
 
-    # def test_resources(self):
-    #     """Test resources page intial rendering"""
-    #     result = self.client.get('/resources', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Helpful resources", result.data)
+    def test_resources(self):
+        """Test resources page intial rendering"""
 
-    # def test_account(self):
-    #     """Test account page intial rendering"""
-    #     result = self.client.get('/account', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Account Information", result.data)
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
 
-    # def test_update_name(self):
-    #     """Test update name page intial rendering"""
-    #     result = self.client.get('/update_name', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"update your name", result.data)
+        result = self.client.get('/resources', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Helpful resources", result.data)
 
-    # def test_change_password(self):
-    #     """Test change_password page intial rendering"""
-    #     result = self.client.get('/change_password', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Verify New Password", result.data)
+    def test_account(self):
+        """Test account page intial rendering"""
 
-    # def test_update_email(self):
-    #     """Test update email page intial rendering"""
-    #     result = self.client.get('/update_email', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"New email address", result.data)
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
 
-    # def test_contact(self):
-    #     """Test contact page intial rendering"""
-    #     result = self.client.get('/contact', follow_redirects=True)
-    #     self.assertEqual(result.status_code, 200)
-    #     self.assertIn(b"Contact", result.data)
+        result = self.client.get('/account', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Account Information", result.data)
 
-    # def test_credits(self):
-    #      """Test credits page intial rendering"""
-    #      result = self.client.get('/credits', follow_redirects=True)
-    #      self.assertEqual(result.status_code, 200)
-    #      self.assertIn(b"In Loving Memory", result.data)
+    def test_update_name(self):
+        """Test update name page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/update_name', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"update your name", result.data)
+
+    def test_change_password(self):
+        """Test change_password page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/change_password', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Verify New Password", result.data)
+
+    def test_update_email(self):
+        """Test update email page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/update_email', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"New email address", result.data)
+
+    def test_contact(self):
+        """Test contact page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/contact', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Contact", result.data)
+
+    def test_credits(self):
+        """Test credits page intial rendering"""
+
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = User.query.filter_by(email="SusAnnie@cheese.com").first().user_id
+
+        result = self.client.get('/credits', follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Special thanks", result.data)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -65,7 +64,6 @@ class Bird(db.Model):
     def __repr__(self):
         """Show helpful bird information."""
         return f"<Bird bird_id={self.bird_id} species={self.species}"
-
 
 
 class Field_Log(db.Model): 

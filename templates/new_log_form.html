@@ -81,16 +81,18 @@
     // Location grabbing and display.
     const showPosition = () => {
       if(navigator.geolocation) {
-        // Get and set current lat and lng from html.
+        // Get and set current lat and lng from the browser.
         navigator.geolocation.getCurrentPosition( (position) => {
           const positionInfoLatitude = position.coords.latitude;
           const positionInfoLongitude = position.coords.longitude;
 
-          // 
+          // Set the value of lat and lng in hidden form fields to lat and lng.
           $('#latitude').attr('value', positionInfoLatitude);
           $('#longitude').attr('value', positionInfoLongitude);
 
-          // Use Google Maps Geolocation to get address of lat and lng. 
+          // Make ajax call to Google Maps Geolocation API returning the address 
+          // of lat and lng coordinates and sets the value of the location in the
+          // form field to the address. 
           $.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${positionInfoLatitude},${positionInfoLongitude}&key=AIzaSyDkyrsItRXuVawscOhU99GW8n1yvvvDH40`, (response) => {
               $('#location').val(response.results[0].formatted_address);
           });
@@ -98,7 +100,7 @@
           // Set location to lat and lng.
           const loc = {lat: positionInfoLatitude, lng: positionInfoLongitude};
 
-          // 
+          // Instert map div after the result div.
           $( "#result" ).after( "<div id='map'></div>" );
           
           // Initialize map at location.

@@ -255,7 +255,7 @@ def all_birds_seen():
     if not current_user_id: 
         return redirect("/login")
 
-    # 
+    # Query the bird model for all birds seen, for this user. 
     birds = Bird.query \
                 .distinct() \
                 .join(bird_field_log_association_table) \
@@ -273,7 +273,6 @@ def all_birds_seen():
     return render_template("all_birds_seen.html", birds=birds)        
 
 
-
 @app.route('/most_seen_birds', methods=['GET'])
 def most_seen_birds(): 
     """Show user most commonly logged birds."""
@@ -284,7 +283,10 @@ def most_seen_birds():
     if not current_user_id: 
         return redirect("/login")
 
-    # 
+    # Query the bird model for birds most frequently seen, for this user. 
+    # Use with_entities() to return tuples instead of Bird objects, using 
+    # func.count() to have SQL do the counting (faster than Python would)
+    # Limit to top 10 species
     birds = Bird.query \
                 .join(bird_field_log_association_table) \
                 .join(Field_Log) \
@@ -473,7 +475,7 @@ def get_current_user_id():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 
