@@ -473,6 +473,7 @@ def get_current_user_id():
 
     return session.get("user_id")
 
+connect_to_db(app)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
@@ -480,8 +481,6 @@ if __name__ == "__main__":
     app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
-
-    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
