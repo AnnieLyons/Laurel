@@ -1,5 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 db = SQLAlchemy()
 
@@ -102,7 +106,7 @@ class Field_Log(db.Model):
         return f"<Field_Log log_id={self.log_id} date={self.date} location={self.location}"
 
 
-def connect_to_db(app, db_uri="postgres:///laurel"):
+def connect_to_db(app, db_uri=os.getenv('DATABASE_URL')):
     """Connect the database to our Flask app."""
 
     # Configure to use our database.

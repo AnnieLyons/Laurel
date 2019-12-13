@@ -1,17 +1,19 @@
-from  jinja2 import StrictUndefined
+from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Field_Log, Bird, bird_field_log_association_table
 from sqlalchemy import func, desc
 from ebird.api import get_nearby_notable
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
 # Required to use Flask sessions and debugging toolbar. 
-# Generate a random secret key on each server start.
-# Users will have to log in every time it restarts, but ... security!
-app.secret_key = os.urandom(32)
+# Use a secret key from an environment variable.
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Causes an undefined variable in jinja to throw an error, instead of failing silently. 
 app.jinja_env.undefined = StrictUndefined
@@ -186,7 +188,7 @@ def recent_ebirds():
     # get_nearby_notable() search, to add records until 5 or more records found. 
     while len(records) <= 5:
         distance += 1
-        records = get_nearby_notable("hlnlefom7qq", log.latitude, log.longitude, dist=distance)
+        records = get_nearby_notable(os.getenv('EBIRD_API_KEY'), log.latitude, log.longitude, dist=distance)
 
     birds_seen = set(record['comName'] for record in records)
 
@@ -484,4 +486,5 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     DebugToolbarExtension(app)
 
-    app.run(port=5000, host='0.0.0.0')
+    # Threaded option to enable multiple instances for multiple user access
+    app.run(threaded=True, port=5000)

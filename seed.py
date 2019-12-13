@@ -2,6 +2,7 @@ from model import Bird, User, connect_to_db, db
 from server import app
 
 
+
 def load_birds():
     """Load birds from birds.csv into database."""
 
