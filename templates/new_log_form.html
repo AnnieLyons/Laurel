@@ -29,6 +29,7 @@
             <input type="hidden" name="latitude" id="latitude">
             <label for="longitude"></label>
             <input type="hidden" name="longitude" id="longitude"> 
+                  <!-- FIX ME: The map will show multipule times if clicking the event handler bellow multipule times -->
                   <!--Position information will be inserted here-->
             <button type="button" onclick="showPosition();">Auto Log Your Location*</button>
           </div>
@@ -74,6 +75,7 @@
           return {'search_term': params.term}
         }
       },
+      // FIX ME: bellow will let me add any birds to the search bar, but does it add to the db? Also results in a server error. 
       // tags: true,
       placeholder: "Search for bird name.",
       width: "300px"
