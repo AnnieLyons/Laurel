@@ -30,7 +30,7 @@
             <label for="longitude"></label>
             <input type="hidden" name="longitude" id="longitude"> 
                   <!--Position information will be inserted here-->
-            <button type="button" onclick="showPosition();">Auto Log Your Location</button>
+            <button type="button" onclick="showPosition();">Auto Log Your Location*</button>
           </div>
 
          <label for="weather">Weather</label>
@@ -74,6 +74,7 @@
           return {'search_term': params.term}
         }
       },
+      tags: true,
       placeholder: "Search for bird name.",
       width: "300px"
     });
